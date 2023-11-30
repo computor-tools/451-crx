@@ -1,0 +1,20 @@
+{
+  "name": "451-crx",
+  "version": "1.0.0",
+  "description": "Qubic network utilities in a browser extension.",
+  "type": "module",
+  "scripts": {
+    "start": "vite",
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "devDependencies": {
+    "@crxjs/vite-plugin": "2.0.0-beta.21",
+    "vite": "^4.3.9",
+    "vite-plugin-solid": "^2.7.0"
+  },
+  "dependencies": {
+    "solid-js": "^1.7.6"
+  }
+}
