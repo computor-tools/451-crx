@@ -10,17 +10,17 @@
 
 @font-face {
 	font-family: 'Noto Sans';
-	src: url('fonts/NotoSans-Regular.ttf') format('truetype');
+	src: url('fonts/Noto/NotoSans-Regular.ttf') format('truetype');
 }
 
 @font-face {
 	font-family: 'Noto Sans';
-	src: url('fonts/NotoSans-Bold.ttf') format('truetype');
+	src: url('fonts/Noto/NotoSans-Bold.ttf') format('truetype');
 	font-weight: bold;
 }
 
 @font-face {
 	font-family: 'Noto Sans';
-	src: url('fonts/NotoSans-Italic.ttf') format('truetype');
+	src: url('fonts/Noto/NotoSans-Italic.ttf') format('truetype');
 	font-style: italic;
 }
