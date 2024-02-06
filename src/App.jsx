@@ -2,9 +2,9 @@ import { Header } from './components';
 
 function App() {
 	return (
-		<div class="min-w-[800px] min-h-[500px]">
+		<div class="w-[var(--vw)] h-[var(--vh)] overflow-hidden">
 			<Header />
-			<main class="h-screen w-screen -mt-2">
+			<main class="h-[var(--container-height)] w-full">
 				<div class="flex justify-center items-center h-full">
 					<h1 class="text-3xl font-bold text-blue-dashed-text">
 						Welcome to Qx
