@@ -3,6 +3,12 @@
 @tailwind utilities;
 
 @layer base {
+	:root {
+		--vw: 800px;
+		--vh: 600px;
+		--header-height: 40px;
+		--container-height: calc(var(--vh) - var(--header-height));
+	}
 	html {
 		font-family: 'Noto Sans', system-ui, sans-serif;
 	}
