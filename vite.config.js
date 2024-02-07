@@ -7,6 +7,14 @@ export default defineConfig({
   plugins: [
     solidPlugin(),
     crx({ manifest }),
+    (function() {
+      return {
+        name: 'no-crossorigin-attr',
+        transformIndexHtml(html) {
+          return html.replace(' crossorigin', '');
+        }
+      }
+    })(),
   ],
   server: {
     port: 3000,
