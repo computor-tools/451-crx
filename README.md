@@ -39,3 +39,5 @@ $ pnpm run build
 ## License
 
 451-crx is licenced by Come-from-Beyond's [**ANTI-Military License**](LICENSE).
+
+Noto fonts used by this project are licensed by [OFL license](public/fonts/Noto/OFL.txt).
