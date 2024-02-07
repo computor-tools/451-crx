@@ -1,15 +1,32 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  background: #101010;
+@layer base {
+	:root {
+		--vw: 800px;
+		--vh: 600px;
+		--header-height: 40px;
+		--container-height: calc(var(--vh) - var(--header-height));
+	}
+	html {
+		font-family: 'Noto Sans', system-ui, sans-serif;
+	}
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@font-face {
+	font-family: 'Noto Sans';
+	src: url('fonts/Noto/NotoSans-Regular.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: 'Noto Sans';
+	src: url('fonts/Noto/NotoSans-Bold.ttf') format('truetype');
+	font-weight: bold;
+}
+
+@font-face {
+	font-family: 'Noto Sans';
+	src: url('fonts/Noto/NotoSans-Italic.ttf') format('truetype');
+	font-style: italic;
 }
