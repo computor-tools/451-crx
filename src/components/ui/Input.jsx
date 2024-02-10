@@ -44,12 +44,12 @@ export default function Input({
 			{label && (
 				<label
 					htmlFor={id}
-					className="block text-sm font-medium leading-6 text-gray-900"
+					className="block text-sm font-medium leading-6 text-gray-400 mb-1"
 				>
 					{label}
 				</label>
 			)}
-			<div className="relative mt-2 rounded-md shadow-sm">
+			<div className="relative rounded-md shadow-sm">
 				<input
 					type={type}
 					name={name}
