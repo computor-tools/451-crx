@@ -30,7 +30,7 @@ export default function Input({
 	type = 'text',
 	placeholder = '',
 	defaultValue = '',
-	className = '',
+	class: className = '',
 	size = 'medium',
 	color = 'primary',
 	variant = 'outlined',
@@ -44,27 +44,27 @@ export default function Input({
 			{label && (
 				<label
 					htmlFor={id}
-					className="block text-sm font-medium leading-6 text-gray-400 mb-1"
+					class="block text-sm font-medium leading-6 text-gray-400 mb-1"
 				>
 					{label}
 				</label>
 			)}
-			<div className="relative rounded-md shadow-sm">
+			<div class="relative rounded-md shadow-sm">
 				<input
 					type={type}
 					name={name}
 					id={id}
-					className={inputClassNames}
+					class={inputClassNames}
 					placeholder={placeholder}
 					defaultValue={defaultValue}
 					aria-invalid={!!errorMessage}
 					aria-describedby={errorMessage ? `${id}-error` : undefined}
 				/>
 				{errorMessage && (
-					<div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+					<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
 						{IconComponent && (
 							<IconComponent
-								className="h-5 w-5 text-red-500"
+								class="h-5 w-5 text-red-500"
 								aria-hidden="true"
 							/>
 						)}
@@ -72,7 +72,7 @@ export default function Input({
 				)}
 			</div>
 			{errorMessage && (
-				<p className="mt-2 text-sm text-red-600" id={`${id}-error`}>
+				<p class="mt-2 text-sm text-red-600" id={`${id}-error`}>
 					{errorMessage}
 				</p>
 			)}
