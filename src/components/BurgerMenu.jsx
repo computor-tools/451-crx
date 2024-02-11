@@ -37,7 +37,7 @@ export default function BurgerMenu() {
 							<CloseIcon stroke="white" />
 						</button>
 						<Input
-							className="w-[80%]"
+							class="w-[80%]"
 							placeholder="search"
 							color="secondary"
 							size="small"
