@@ -2,18 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-	:root {
-		--vw: 800px;
-		--vh: 600px;
-		--header-height: 40px;
-		--container-height: calc(var(--vh) - var(--header-height));
-	}
-	html {
-		font-family: 'Noto Sans', system-ui, sans-serif;
-	}
-}
-
 @font-face {
 	font-family: 'Noto Sans';
 	src: url('fonts/Noto/NotoSans-Regular.ttf') format('truetype');
@@ -29,4 +17,46 @@
 	font-family: 'Noto Sans';
 	src: url('fonts/Noto/NotoSans-Italic.ttf') format('truetype');
 	font-style: italic;
+}
+
+@layer base {
+	:root {
+		/* Layout */
+		--vw: 800px;
+		--vh: 600px;
+		--header-height: 40px;
+		--container-height: calc(var(--vh) - var(--header-height));
+		/* Color Scheme */
+		--surface: #101010;
+		--surface-container-lowest: #151515;
+		--surface-container-low: #202020;
+		--surface-container: #252525;
+		--surface-container-high: #303030;
+		--surface-container-highest: #353535;
+		--on-surface: #ffffff;
+		--on-surface-rgb: 255, 255, 255;
+		--on-surface-variant: #a5a5a5;
+
+		--primary: #6366f1;
+		--primary-rgb: 99, 101, 241;
+		--primary-container: rgba(var(--primary-rgb), 0.1);
+		--on-primary: var(--surface);
+		--on-primary-container: var(--primary);
+
+		--secondary: #2563eb;
+		--secondary-rgb: 37, 100, 235;
+		--secondary-container: rgba(var(--secondary-rgb), 0.1);
+		--on-secondary: var(--surface);
+		--on-secondary-container: var(--secondary);
+
+		--tertiary: transparent;
+		--on-tertiary: var(--on-surface-variant);
+		--tertiary-container: rgba(var(--tertiary-rgb), 0.1);
+
+		--outline: rgba(var(--on-surface-rgb), 0.3);
+		--outline-variant: rgba(var(--on-surface-rgb), 0.1);
+	}
+	html {
+		font-family: 'Noto Sans', system-ui, sans-serif;
+	}
 }
