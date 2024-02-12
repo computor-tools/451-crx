@@ -1,4 +1,5 @@
 import { ExclamationCircleIcon } from '@/assets/icons';
+import { twMerge } from 'tailwind-merge';
 
 const baseClassNames =
 	'flex w-full rounded-md border border-input bg-transparent shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50';
@@ -37,7 +38,12 @@ export default function Input({
 	errorMessage = '',
 	icon: IconComponent = ExclamationCircleIcon,
 }) {
-	const inputClassNames = `${baseClassNames} ${sizeClasses[size]} ${colorVariantClasses[color][variant]} ${className}`;
+	const inputClassNames = twMerge(
+		baseClassNames,
+		sizeClasses[size],
+		colorVariantClasses[color][variant],
+		className
+	);
 
 	return (
 		<div>
