@@ -1,25 +1,26 @@
 {
-  "name": "451-crx",
-  "version": "1.0.0",
-  "description": "Qubic network utilities in a browser extension.",
-  "type": "module",
-  "scripts": {
-    "start": "vite",
-    "dev": "vite",
-    "build": "vite build",
-    "serve": "vite preview"
-  },
-  "dependencies": {
-	"solid-js": "^1.7.6"
-  },
-  "devDependencies": {
-    "@crxjs/vite-plugin": "2.0.0-beta.21",
-    "@tailwindcss/forms": "^0.5.7",
-    "autoprefixer": "^10.4.17",
-    "postcss": "^8.4.33",
-    "tailwindcss": "^3.4.1",
-    "vite": "^4.3.9",
-    "vite-plugin-solid": "^2.7.0",
-    "vite-plugin-solid-svg": "^0.8.0"
-  }
+	"name": "451-crx",
+	"version": "1.0.0",
+	"description": "Qubic network utilities in a browser extension.",
+	"type": "module",
+	"scripts": {
+		"start": "vite",
+		"dev": "vite",
+		"build": "vite build",
+		"serve": "vite preview"
+	},
+	"dependencies": {
+		"solid-js": "^1.7.6"
+	},
+	"devDependencies": {
+		"@crxjs/vite-plugin": "2.0.0-beta.21",
+		"@tailwindcss/forms": "^0.5.7",
+		"autoprefixer": "^10.4.17",
+		"postcss": "^8.4.33",
+		"tailwind-merge": "^2.2.1",
+		"tailwindcss": "^3.4.1",
+		"vite": "^4.3.9",
+		"vite-plugin-solid": "^2.7.0",
+		"vite-plugin-solid-svg": "^0.8.0"
+	}
 }
