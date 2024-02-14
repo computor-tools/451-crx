@@ -1,6 +1,6 @@
 import { CloseIcon, HamburgerIcon } from '@/assets/icons';
 import { Input } from '@/components/ui';
-import { createSignal } from 'solid-js';
+import { createSignal, For } from 'solid-js';
 
 const MENU_ITEMS = [
 	{ title: 'logout', link: '#' },
@@ -18,7 +18,7 @@ export default function BurgerMenu() {
 	return (
 		<div>
 			{/* Hamburger Icon */}
-			<button class="p-1" onclick={toggleMenu}>
+			<button class="p-1" onClick={toggleMenu}>
 				<HamburgerIcon />
 			</button>
 
@@ -31,7 +31,7 @@ export default function BurgerMenu() {
 				<div class="p-5">
 					<div class="grid">
 						<button
-							onclick={() => setIsOpen(!isOpen())}
+							onClick={() => setIsOpen(!isOpen())}
 							class="h-5 w-5 justify-self-end"
 						>
 							<CloseIcon stroke="white" />
@@ -44,16 +44,18 @@ export default function BurgerMenu() {
 						/>
 					</div>
 					<ul class="mt-4">
-						{MENU_ITEMS.map((item) => (
-							<li>
-								<a
-									href={item.link}
-									class="block py-2 hover:text-primary"
-								>
-									{item.title}
-								</a>
-							</li>
-						))}
+						<For each={MENU_ITEMS}>
+							{(item) => (
+								<li>
+									<a
+										href={item.link}
+										class="block py-2 hover:text-primary"
+									>
+										{item.title}
+									</a>
+								</li>
+							)}
+						</For>
 					</ul>
 				</div>
 			</div>
