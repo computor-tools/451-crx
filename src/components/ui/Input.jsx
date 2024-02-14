@@ -1,4 +1,5 @@
 import { ExclamationCircleIcon } from '@/assets/icons';
+import { mergeProps } from 'solid-js';
 import { twMerge } from 'tailwind-merge';
 
 const baseClassNames =
@@ -24,51 +25,58 @@ const colorVariantClasses = {
 	},
 };
 
-export default function Input({
-	id,
-	name,
-	label,
-	type = 'text',
-	placeholder = '',
-	defaultValue = '',
-	class: className = '',
-	size = 'medium',
-	color = 'primary',
-	variant = 'outlined',
-	errorMessage = '',
-	icon: IconComponent = ExclamationCircleIcon,
-}) {
-	const inputClassNames = twMerge(
-		baseClassNames,
-		sizeClasses[size],
-		colorVariantClasses[color][variant],
-		className
+export default function Input(_props) {
+	const props = mergeProps(
+		{
+			type: 'text',
+			placeholder: '',
+			defaultValue: '',
+			class: '',
+			size: 'medium',
+			color: 'primary',
+			variant: 'outlined',
+			errorMessage: '',
+			icon: ExclamationCircleIcon,
+		},
+		_props
 	);
+
+	const IconComponent = () => props.icon;
+
+	const getInputClassNames = () =>
+		twMerge(
+			baseClassNames,
+			sizeClasses[props.size],
+			colorVariantClasses[props.color][props.variant],
+			props.class
+		);
 
 	return (
 		<div>
-			{label && (
+			{props.label && (
 				<label
-					htmlFor={id}
+					for={props.id}
 					class="block text-sm font-medium leading-6 text-gray-400 mb-1"
 				>
-					{label}
+					{props.label}
 				</label>
 			)}
 			<div class="relative rounded-md shadow-sm">
 				<input
-					type={type}
-					name={name}
-					id={id}
-					class={inputClassNames}
-					placeholder={placeholder}
-					defaultValue={defaultValue}
-					aria-invalid={!!errorMessage}
-					aria-describedby={errorMessage ? `${id}-error` : undefined}
+					type={props.type}
+					name={props.name}
+					id={props.id}
+					class={getInputClassNames()}
+					placeholder={props.placeholder}
+					defaultValue={props.defaultValue}
+					aria-invalid={!!props.errorMessage}
+					aria-describedby={
+						props.errorMessage ? `${props.id}-error` : undefined
+					}
 				/>
-				{errorMessage && (
+				{props.errorMessage && (
 					<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-						{IconComponent && (
+						{props.icon && (
 							<IconComponent
 								class="h-5 w-5 text-red-500"
 								aria-hidden="true"
@@ -77,9 +85,9 @@ export default function Input({
 					</div>
 				)}
 			</div>
-			{errorMessage && (
-				<p class="mt-2 text-sm text-red-600" id={`${id}-error`}>
-					{errorMessage}
+			{props.errorMessage && (
+				<p class="mt-2 text-sm text-red-600" id={`${props.id}-error`}>
+					{props.errorMessage}
 				</p>
 			)}
 		</div>
