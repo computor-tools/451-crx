@@ -3,11 +3,16 @@
 	"version": "1.0.0",
 	"description": "Qubic network utilities in a browser extension.",
 	"type": "module",
+	"engines": {
+		"node": "^20.0.0"
+	},
+	"packageManager": "pnpm@8.15.2",
 	"scripts": {
 		"start": "vite",
 		"dev": "vite",
 		"build": "vite build",
-		"serve": "vite preview"
+		"serve": "vite preview",
+		"lint": "eslint --ext .js,.jsx ."
 	},
 	"dependencies": {
 		"solid-js": "^1.7.6"
@@ -16,6 +21,8 @@
 		"@crxjs/vite-plugin": "2.0.0-beta.21",
 		"@tailwindcss/forms": "^0.5.7",
 		"autoprefixer": "^10.4.17",
+		"eslint": "^8.56.0",
+		"eslint-plugin-solid": "^0.13.1",
 		"postcss": "^8.4.33",
 		"tailwind-merge": "^2.2.1",
 		"tailwindcss": "^3.4.1",
