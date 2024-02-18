@@ -1,18 +1,13 @@
-import { Header } from './components';
+import { HashRouter, Route } from '@solidjs/router';
+import { AppLayout } from './components/ui/layouts';
+import { EnergyTransfer, Home, TransferOwnership } from './views';
 
-function App() {
+export default function App() {
 	return (
-		<div class="w-[var(--vw)] h-[var(--vh)] overflow-hidden">
-			<Header />
-			<main class="h-[var(--container-height)] w-full">
-				<div class="flex justify-center items-center h-full">
-					<h1 class="text-3xl font-bold text-blue-dashed-text">
-						Welcome to Qx
-					</h1>
-				</div>
-			</main>
-		</div>
+		<HashRouter root={AppLayout}>
+			<Route path="/" component={Home} />
+			<Route path="/energy-transfer" component={EnergyTransfer} />
+			<Route path="/transfer-ownership" component={TransferOwnership} />
+		</HashRouter>
 	);
 }
-
-export default App;
