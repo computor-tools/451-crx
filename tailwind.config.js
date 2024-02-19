@@ -8,6 +8,9 @@ export default {
 			fontFamily: {
 				primary: 'Noto Sans, sans-serif',
 			},
+			fontSize: {
+				xxs: ['.625rem', '.75rem'],
+			},
 			colors: {
 				// Basic colors
 				surface: 'var(--surface)',
