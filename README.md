@@ -1,5 +1,9 @@
 # 451-crx
 
+[![Lint](https://github.com/computor-tools/451-crx/actions/workflows/lint.yml/badge.svg)](https://github.com/computor-tools/451-crx/actions/workflows/lint.yml)
+[![Dependency review](https://github.com/computor-tools/451-crx/actions/workflows/dependency-review.yml/badge.svg)](https://github.com/computor-tools/451-crx/actions/workflows/dependency-review.yml)
+
+
 Qubic network utilities in a browser extension. Check [qubic discord](http://discord.gg/2vDMR8m) for more info.
 
 ## Usage
