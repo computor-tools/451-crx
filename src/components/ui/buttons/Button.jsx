@@ -3,9 +3,10 @@ import { twMerge } from 'tailwind-merge';
 import LoadingSpinner from '../LoadingSpinner';
 
 const sizeClasses = {
-	small: 'py-1.5 text-sm',
-	medium: 'py-2 text-base',
-	large: 'py-3 text-lg',
+	'x-small': 'px-2 py-1 text-xs',
+	small: 'px-2 py-1.5 text-sm',
+	medium: 'px-2 py-1.5 text-base',
+	large: 'px-2.5 py-1.5 text-lg',
 };
 
 const colorVariantClasses = {
@@ -34,7 +35,7 @@ const colorVariantClasses = {
  * @param {Object} _props - Component props
  * @param {string} [_props.type='button'] - The button type (e.g., 'button', 'submit').
  * @param {string} [_props.class=''] - Additional CSS classes for styling the button.
- * @param {string} [_props.size='medium'] - The size of the button ('small', 'medium', 'large').
+ * @param {string} [_props.size='medium'] - The size of the button ('x-small', 'small', 'medium', 'large').
  * @param {string} [_props.color='primary'] - The color theme of the button ('primary', 'secondary', 'tertiary').
  * @param {string} [_props.variant='filled'] - The variant of the button ('filled', 'outlined', 'text').
  * @param {Solid.Children} [_props.children] - The children nodes of the button, typically text or icons.
