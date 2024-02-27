@@ -16,7 +16,10 @@
 	},
 	"dependencies": {
 		"@solidjs/router": "^0.12.3",
-		"solid-js": "^1.8.15"
+		"events": "^3.3.0",
+		"qubic-lrv": "github:computor-tools/qubic-lrv#916444bf7e25a4592ec3c67c6aa0ca3dc31fa4a7",
+		"solid-js": "^1.8.15",
+		"uWebSockets.js": "github:uNetworking/uWebSockets.js#v20.41.0"
 	},
 	"devDependencies": {
 		"@crxjs/vite-plugin": "2.0.0-beta.21",
