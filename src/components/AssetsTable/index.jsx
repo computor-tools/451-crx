@@ -47,7 +47,7 @@ export default function AssetsTable() {
 
 	return (
 		<section class="border rounded-xl w-full bg-white">
-			<div class="flex items-center border-b sticky top-0 bg-white">
+			<div class="flex items-center border-b sticky top-10 bg-white">
 				{/* Filters */}
 				<ul class="flex">
 					<For each={filters}>
