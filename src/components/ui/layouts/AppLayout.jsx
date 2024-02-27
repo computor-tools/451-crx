@@ -9,7 +9,7 @@ export default function AppLayout(props) {
 	return (
 		<div class="w-[var(--vw)] h-[var(--vh)]">
 			<Header />
-			<main class="h-[var(--container-height)] w-full">
+			<main class="h-[var(--container-height)] w-full p-10">
 				{props.children}
 			</main>
 		</div>
