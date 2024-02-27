@@ -14,16 +14,18 @@ jobs:
             - name: Checkout Repo
               uses: actions/checkout@v4
 
-            - name: Setup pnpm
-              uses: pnpm/action-setup@v2.2.4
+            - name: Setup bun
+              uses: oven-sh/setup-bun@v1
 
             - name: Install xsltproc
-              run: sudo apt-get install -y xsltproc
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install -y xsltproc
 
             - name: Setup Node.js
               uses: actions/setup-node@v4
               with:
                   node-version-file: package.json
 
-            - run: pnpm install --frozen-lockfile
-            - run: pnpm lint
+            - run: bun install
+            - run: bun lint
