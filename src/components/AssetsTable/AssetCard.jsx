@@ -2,6 +2,7 @@ import { ArrowUpRightIcon } from '@/assets/icons';
 import { Routes } from '@/utils/routes';
 import { A } from '@solidjs/router';
 import { mergeProps } from 'solid-js';
+import { twMerge } from 'tailwind-merge';
 import { Button } from '../ui/buttons';
 
 // TODO: Implement the AssetCard component with real data and add props JSdocs
@@ -15,6 +16,7 @@ export default function AssetCard(_props) {
 			energy: '100B',
 			status: 'Owned',
 			managingContractIndex: 1,
+			class: '',
 		},
 		_props
 	);
@@ -25,7 +27,7 @@ export default function AssetCard(_props) {
 	};
 
 	return (
-		<article class="space-y-3 px-6 py-5 border-b">
+		<article class={twMerge('space-y-3 px-6 py-5 border-t', props.class)}>
 			<div class="flex items-center gap-2">
 				<h2>{props.name}</h2>
 				<p>-</p>
