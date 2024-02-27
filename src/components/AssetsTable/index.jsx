@@ -46,8 +46,8 @@ export default function AssetsTable() {
 	};
 
 	return (
-		<section class="border rounded-xl w-full bg-white">
-			<div class="flex items-center border-b sticky top-10 bg-white rounded-xl">
+		<section class="border rounded-xl w-full bg-white mb-16">
+			<div class="flex items-center border-b sticky top-10 bg-white rounded-t-xl">
 				{/* Filters */}
 				<ul class="flex">
 					<For each={filters}>
@@ -69,7 +69,14 @@ export default function AssetsTable() {
 				</ul>
 			</div>
 			<div>
-				<For each={assets}>{(asset) => <AssetCard {...asset} />}</For>
+				<For each={assets}>
+					{(asset, index) => (
+						<AssetCard
+							{...asset}
+							class={index() === 0 && 'border-0'}
+						/>
+					)}
+				</For>
 			</div>
 		</section>
 	);
