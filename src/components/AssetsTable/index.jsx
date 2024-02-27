@@ -47,7 +47,7 @@ export default function AssetsTable() {
 
 	return (
 		<section class="border rounded-xl w-full bg-white">
-			<div class="flex items-center border-b">
+			<div class="flex items-center border-b sticky top-0 bg-white">
 				{/* Filters */}
 				<ul class="flex">
 					<For each={filters}>
@@ -68,7 +68,7 @@ export default function AssetsTable() {
 					</For>
 				</ul>
 			</div>
-			<div class="h-[300px] overflow-y-scroll">
+			<div>
 				<For each={assets}>{(asset) => <AssetCard {...asset} />}</For>
 			</div>
 		</section>
