@@ -100,6 +100,8 @@ export default function Input(_props) {
 					aria-describedby={
 						props.errorMessage ? `${props.id}-error` : undefined
 					}
+					onInput={(...args) => props.onInput(...args)}
+					onChange={(...args) =>  props.onChange(...args)}
 				/>
 				{props.errorMessage && (
 					<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">

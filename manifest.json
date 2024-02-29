@@ -8,6 +8,7 @@
   },
   "action": { "default_popup": "index.html" },
   "permissions": [
+    "storage",
     "declarativeNetRequestWithHostAccess"
   ],
   "host_permissions": [

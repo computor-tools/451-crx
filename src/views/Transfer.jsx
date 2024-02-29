@@ -12,9 +12,7 @@ export default function Transfer() {
 
 				<div class="grid place-items-center gap-1">
 					<h2 class="text-xs">Source ID</h2>
-					<span class="text-xxs border p-2 rounded-lg">
-						AFZPUAIYVPNUYGJRQVLUKOPPVLHAZQTGLYAAUUNBXFTVTAMSBKQBLEIEPCVJ
-					</span>
+					<span class="text-xxs border p-2 rounded-lg" />
 				</div>
 			</div>
 

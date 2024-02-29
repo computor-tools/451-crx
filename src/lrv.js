@@ -2,6 +2,9 @@ import * as qubic from 'qubic-lrv';
 
 let lrv;
 
+let latestBroadcastedComputors;
+let latestTick;
+
 let epochListener;
 let tickListener;
 
@@ -26,6 +29,7 @@ const errorListener = function (error) {
 };
 
 let seed;
+let id = '';
 const privateKeys = new Map();
 const entities = new Map();
 
@@ -40,16 +44,25 @@ const addId = async function (event) {
         command: 'ID',
         id: entity.id,
     });
+
+    return entity.id;
 };
 
-addEventListener("message", async function (event) {
+addEventListener('message', async function (event) {
     switch (event.data.command) {
         case 'INIT':
+            event.source.postMessage({
+                command: 'ID',
+                id,
+            });
+
             if (lrv === undefined) {
                 lrv = qubic.lrv();
 
                 epochListener = function (broadcastedComputors) {
                     console.log('Epoch:', broadcastedComputors.epoch);
+
+                    latestBroadcastedComputors = broadcastedComputors;
 
                     event.source.postMessage({
                         command: 'EPOCH',
@@ -59,6 +72,8 @@ addEventListener("message", async function (event) {
 
                 tickListener = function (tick) {
                     console.log('\nTick  :', tick.tick, tick.spectrumDigest, tick.universeDigest, tick.computerDigest);
+
+                    latestTick = tick;
 
                     event.source.postMessage({
                         command: 'TICK',
@@ -80,15 +95,38 @@ addEventListener("message", async function (event) {
                     tls: true,
                     address: 'lrv.quorum.gr',
                 }]); // start the loop by listening to networked messages
+            } else {
+                if (latestBroadcastedComputors !== undefined) {
+                    event.source.postMessage({
+                        command: 'EPOCH',
+                        broadcastedComputors: latestBroadcastedComputors,
+                    });
+
+                    if (latestTick !== undefined) {
+                        event.source.postMessage({
+                            command: 'TICK',
+                            tick: latestTick,
+                        });
+                    }
+                }
             }
 
+            break;
+
+        case 'ID':
+            if (id) {
+                event.source.postMessage({
+                    command: 'ID',
+                    id,
+                });
+            }
             break;
 
         case 'LOGIN':
             if (lrv !== undefined) {
                 if (seed === undefined) {
                     seed = event.data.seed;
-                    addId(event);
+                    id = await addId(event);
                 }
             }
             break;
@@ -115,11 +153,18 @@ addEventListener("message", async function (event) {
 
         case 'LOGOUT':
             if (seed !== undefined) {
-                seed = '';
+                seed = undefined;
                 privateKeys.clear();
+
+                id = '';
 
                 // entities.forEach(entity => entity.destroy());
                 entities.clear();
+
+                event.source.postMessage({
+                    command: 'ID',
+                    id,
+                });
             }
             break;
     }
