@@ -2,6 +2,9 @@ import * as qubic from 'qubic-lrv';
 
 let lrv;
 
+let latestBroadcastedComputors;
+let latestTick;
+
 let epochListener;
 let tickListener;
 
@@ -51,6 +54,8 @@ addEventListener("message", async function (event) {
                 epochListener = function (broadcastedComputors) {
                     console.log('Epoch:', broadcastedComputors.epoch);
 
+                    latestBroadcastedComputors = broadcastedComputors;
+
                     event.source.postMessage({
                         command: 'EPOCH',
                         broadcastedComputors,
@@ -59,6 +64,8 @@ addEventListener("message", async function (event) {
 
                 tickListener = function (tick) {
                     console.log('\nTick  :', tick.tick, tick.spectrumDigest, tick.universeDigest, tick.computerDigest);
+
+                    latestTick = tick;
 
                     event.source.postMessage({
                         command: 'TICK',
@@ -80,6 +87,20 @@ addEventListener("message", async function (event) {
                     tls: true,
                     address: 'lrv.quorum.gr',
                 }]); // start the loop by listening to networked messages
+            } else {
+                if (latestBroadcastedComputors !== undefined) {
+                    event.source.postMessage({
+                        command: 'EPOCH',
+                        broadcastedComputors: latestBroadcastedComputors,
+                    });
+
+                    if (latestTick !== undefined) {
+                        event.source.postMessage({
+                            command: 'TICK',
+                            tick: latestTick,
+                        });
+                    }
+                }
             }
 
             break;
@@ -115,7 +136,7 @@ addEventListener("message", async function (event) {
 
         case 'LOGOUT':
             if (seed !== undefined) {
-                seed = '';
+                seed = undefined;
                 privateKeys.clear();
 
                 // entities.forEach(entity => entity.destroy());
