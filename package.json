@@ -1,37 +1,37 @@
 {
-	"name": "451-crx",
-	"version": "1.0.0",
-	"description": "Qubic network utilities in a browser extension.",
-	"type": "module",
-	"engines": {
-		"node": "^20.0.0"
-	},
-	"packageManager": "pnpm@8.15.2",
-	"scripts": {
-		"start": "vite",
-		"dev": "vite",
-		"build": "vite build",
-		"serve": "vite preview",
-		"lint": "eslint --ext .js,.jsx ."
-	},
-	"dependencies": {
-		"@solidjs/router": "^0.12.3",
-		"events": "^3.3.0",
-		"qubic-lrv": "github:computor-tools/qubic-lrv#916444bf7e25a4592ec3c67c6aa0ca3dc31fa4a7",
-		"solid-js": "^1.8.15",
-		"uWebSockets.js": "github:uNetworking/uWebSockets.js#v20.41.0"
-	},
-	"devDependencies": {
-		"@crxjs/vite-plugin": "2.0.0-beta.21",
-		"@tailwindcss/forms": "^0.5.7",
-		"autoprefixer": "^10.4.17",
-		"eslint": "^8.56.0",
-		"eslint-plugin-solid": "^0.13.1",
-		"postcss": "^8.4.33",
-		"tailwind-merge": "^2.2.1",
-		"tailwindcss": "^3.4.1",
-		"vite": "^4.3.9",
-		"vite-plugin-solid": "^2.7.0",
-		"vite-plugin-solid-svg": "^0.8.0"
-	}
+  "name": "451-crx",
+  "version": "1.0.0",
+  "description": "Qubic network utilities in a browser extension.",
+  "type": "module",
+  "engines": {
+    "node": "^20.0.0"
+  },
+  "scripts": {
+    "start": "vite",
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "lint": "eslint --ext .js,.jsx ."
+  },
+  "dependencies": {
+    "@solidjs/router": "^0.12.3",
+    "events": "^3.3.0",
+    "qubic-lrv": "github:computor-tools/qubic-lrv#6efa1219bbd0ef8595ddbcfe2920b1c92028339c",
+    "solid-js": "^1.8.15"
+  },
+  "trustedDependencies": ["qubic-lrv"],
+  "devDependencies": {
+    "@crxjs/vite-plugin": "2.0.0-beta.21",
+    "@tailwindcss/forms": "^0.5.7",
+    "autoprefixer": "^10.4.17",
+    "eslint": "^8.56.0",
+    "eslint-plugin-solid": "^0.13.1",
+    "postcss": "^8.4.33",
+    "tailwind-merge": "^2.2.1",
+    "tailwindcss": "^3.4.1",
+    "vite": "^4.3.9",
+    "vite-plugin-solid": "^2.7.0",
+    "vite-plugin-solid-svg": "^0.8.0",
+    "uWebSockets.js": "github:uNetworking/uWebSockets.js#v20.41.0"
+  }
 }
