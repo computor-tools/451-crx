@@ -8,8 +8,8 @@ import manifest from './manifest.json';
 
 export default defineConfig({
 	plugins: [
-		solidPlugin(),
 		crx({ manifest }),
+		solidPlugin(),
 		solidSvg({ defaultAsComponent: true }),
 		(function () {
 			return {
@@ -22,6 +22,9 @@ export default defineConfig({
 	],
 	server: {
 		port: 3000,
+		hmr: {
+			clientPort: 3000,
+		},
 	},
 	assetsInclude: ['*.wasm'],
 	base: './',

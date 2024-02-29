@@ -2,7 +2,24 @@
   "manifest_version": 3,
   "name": "451 client utilities for Qubic network",
   "version": "1.0.0",
+  "minimum_chrome_version": "116",
+  "content_security_policy": {
+    "extension_pages": "script-src 'wasm-unsafe-eval';"
+  },
   "action": { "default_popup": "index.html" },
+  "permissions": [
+    "declarativeNetRequestWithHostAccess"
+  ],
+  "host_permissions": [
+    "ws://localhost/*",
+    "https://*/*",
+    "wss://*/*"
+  ],
+  "background": {
+    "service_worker": "src/lrv.js",
+    "type": "module",
+    "persistent": true
+  },
   "icons": {
     "16": "icons/icon.png",
     "32": "icons/icon.png",
