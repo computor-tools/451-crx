@@ -29,6 +29,7 @@ const errorListener = function (error) {
 };
 
 let seed;
+let id = '';
 const privateKeys = new Map();
 const entities = new Map();
 
@@ -43,11 +44,18 @@ const addId = async function (event) {
         command: 'ID',
         id: entity.id,
     });
+
+    return entity.id;
 };
 
-addEventListener("message", async function (event) {
+addEventListener('message', async function (event) {
     switch (event.data.command) {
         case 'INIT':
+            event.source.postMessage({
+                command: 'ID',
+                id,
+            });
+
             if (lrv === undefined) {
                 lrv = qubic.lrv();
 
@@ -105,11 +113,20 @@ addEventListener("message", async function (event) {
 
             break;
 
+        case 'ID':
+            if (id) {
+                event.source.postMessage({
+                    command: 'ID',
+                    id,
+                });
+            }
+            break;
+
         case 'LOGIN':
             if (lrv !== undefined) {
                 if (seed === undefined) {
                     seed = event.data.seed;
-                    addId(event);
+                    id = await addId(event);
                 }
             }
             break;
@@ -139,8 +156,15 @@ addEventListener("message", async function (event) {
                 seed = undefined;
                 privateKeys.clear();
 
+                id = '';
+
                 // entities.forEach(entity => entity.destroy());
                 entities.clear();
+
+                event.source.postMessage({
+                    command: 'ID',
+                    id,
+                });
             }
             break;
     }

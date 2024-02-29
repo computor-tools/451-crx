@@ -1,9 +1,11 @@
+import { For, createSignal } from 'solid-js';
+import { A, useBeforeLeave } from '@solidjs/router';
+
 import { CloseIcon, HamburgerIcon } from '@/assets/icons';
 import { Input } from '@/components/ui';
-import { For, createSignal } from 'solid-js';
 
 const ACCOUNT_MENU = [
-	{ title: 'logout', link: '#' },
+	{ title: 'logout', link: '/logout' },
 	{ title: 'export wallet', link: '#' },
 	{ title: 'settings', link: '#' },
 ];
@@ -17,6 +19,12 @@ export default function BurgerMenu() {
 	const [isOpen, setIsOpen] = createSignal(false);
 
 	const toggleMenu = () => setIsOpen(!isOpen());
+
+	useBeforeLeave(() => {
+		if (isOpen()) {
+			toggleMenu();
+		}
+	});
 
 	return (
 		<div>
@@ -50,12 +58,13 @@ export default function BurgerMenu() {
 						<For each={ACCOUNT_MENU}>
 							{(item) => (
 								<li>
-									<a
+									<A
 										href={item.link}
 										class="block py-2 hover:text-primary"
+
 									>
 										{item.title}
-									</a>
+									</A>
 								</li>
 							)}
 						</For>

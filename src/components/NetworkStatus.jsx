@@ -1,19 +1,10 @@
-import { mergeProps } from 'solid-js';
+import { createSignal, mergeProps } from 'solid-js';
 import { twMerge } from 'tailwind-merge';
-
-import { createSignal } from 'solid-js';
-
 
 const [broadcastedComputors, setBroadcastedComputors] = createSignal({ epoch: 0 });
 const [tick, setTick] = createSignal({ tick: 0 });
 
-const appendTickAndEpoch = function (epoch, tick) {
-	return epoch === 0 ? '' : `${epoch}${tick === 0 ? '' : `|${new Intl.NumberFormat().format(tick)}`}`;
-};
-
 navigator.serviceWorker.addEventListener('message', (event) => {
-	console.log(`The service worker sent me a message: ${event.data}`);
-
 	switch (event.data.command) {
 		case 'EPOCH':
 			setBroadcastedComputors((current) => current.epoch < event.data.broadcastedComputors.epoch ? event.data.broadcastedComputors : current);
@@ -22,17 +13,20 @@ navigator.serviceWorker.addEventListener('message', (event) => {
 			setTick((current) => current.tick < event.data.tick.tick ? event.data.tick : current);
 			break;
 	}
- });
+});
 
 navigator.serviceWorker.ready.then((registration) => registration.active.postMessage({
 	command: 'INIT',
 }));
 
-
 const statusClassNames = {
 	Disconnected: 'text-rose-400 bg-rose-400/10',
 	Syncing: 'text-orange-400 bg-orange-400/10',
 	Synced: 'text-emerald-400 bg-emerald-400/10',
+};
+
+const appendTickAndEpoch = function (epoch, tick) {
+	return epoch === 0 ? '' : `${epoch}${tick === 0 ? '' : `|${new Intl.NumberFormat().format(tick)}`}`;
 };
 
 export default function ConnectionStatus(_props) {
