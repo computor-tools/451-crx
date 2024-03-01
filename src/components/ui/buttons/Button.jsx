@@ -3,31 +3,38 @@ import { twMerge } from 'tailwind-merge';
 import LoadingSpinner from '../LoadingSpinner';
 
 const sizeClasses = {
-	'x-small': 'px-2 py-1 text-xs',
-	small: 'px-2 py-1.5 text-sm',
-	medium: 'px-2 py-1.5 text-base',
-	large: 'px-2.5 py-1.5 text-lg',
+    'x-small': 'px-2 py-1 text-xs',
+    small: 'px-2 py-1.5 text-sm',
+    medium: 'px-2 py-1.5 text-base',
+    large: 'px-2.5 py-1.5 text-lg',
 };
 
 const colorVariantClasses = {
-	primary: {
-		filled: 'text-white bg-primary border-primary-container focus:ring-primary focus:border-primary hover:opacity-80',
-		outlined:
-			'text-primary border-primary focus:ring-primary focus:border-primary bg-transparent hover:bg-primary hover:opacity-70 hover:text-white',
-		text: 'text-primary focus:ring-primary bg-transparent border-transparent ring-0 hover:bg-primary hover:opacity-70 hover:text-white',
-	},
-	secondary: {
-		filled: 'text-white bg-black border-secondary-container focus:ring-secondary focus:border-secondary hover:opacity-80 focus:ring-zinc-500 focus:border-zinc-500',
-		outlined:
-			'text-black border-black focus:ring-black focus:border-black bg-transparent ring-black hover:bg-zinc-100',
-		text: 'text-black ring-0 bg-transparent border-transparent hover:bg-zinc-100 focus:ring-zinc-500 focus:border-zinc-500',
-	},
-	tertiary: {
-		filled: 'text-black bg-white border-white focus:ring-zinc-500 focus:border-zinc-500 ring-0 hover:bg-zinc-100',
-		outlined:
-			'text-white border-white focus:ring-zinc-500 focus:border-white bg-transparent ring-white hover:bg-zinc-700',
-		text: 'text-white bg-transparent border-transparent hover:bg-zinc-700 ring-0 focus:ring-zinc-500 focus:border-zinc-500',
-	},
+    primary: {
+        filled: 'text-white bg-primary border-primary-container focus:ring-primary focus:border-primary hover:opacity-80',
+        outlined: 'text-primary border-primary focus:ring-primary focus:border-primary bg-transparent hover:bg-primary hover:opacity-70 hover:text-white',
+        text: 'text-primary focus:ring-primary bg-transparent border-transparent ring-0 hover:bg-primary hover:opacity-70 hover:text-white',
+    },
+    secondary: {
+        filled: 'text-white bg-black border-secondary-container focus:ring-secondary focus:border-secondary hover:opacity-80 focus:ring-zinc-500 focus:border-zinc-500',
+        outlined: 'text-black border-black focus:ring-black focus:border-black bg-transparent ring-black hover:bg-zinc-100',
+        text: 'text-black ring-0 bg-transparent border-transparent hover:bg-zinc-100 focus:ring-zinc-500 focus:border-zinc-500',
+    },
+    tertiary: {
+        filled: 'text-black bg-white border-white focus:ring-zinc-500 focus:border-zinc-500 ring-0 hover:bg-zinc-100',
+        outlined: 'text-white border-white focus:ring-zinc-500 focus:border-white bg-transparent ring-white hover:bg-zinc-700',
+        text: 'text-white bg-transparent border-transparent hover:bg-zinc-700 ring-0 focus:ring-zinc-500 focus:border-zinc-500',
+    },
+    green: {
+        filled: 'text-white bg-emerald-500 border-emerald-500 focus:ring-emerald-500 focus:border-emerald-500 ring-0 hover:bg-emerald-600',
+        outlined: 'text-emerald-500 border-emerald-500 focus:ring-emerald-500 focus:border-emerald-500 bg-transparent ring-emerald-500 hover:bg-emerald-500 hover:text-white',
+        text: 'text-emerald-500 bg-transparent border-transparent ring-0 hover:bg-emerald-100 focus:ring-emerald-500 focus:border-emerald-500',
+    },
+    red: {
+        filled: 'text-white bg-red-500 border-red-500 focus:ring-red-500 focus:border-red-500 ring-0 hover:bg-red-600',
+        outlined: 'text-red-500 border-red-500 focus:ring-red-500 focus:border-red-500 bg-transparent ring-red-500 hover:bg-red-500 hover:text-white',
+        text: 'text-red-500 bg-transparent border-transparent ring-0 hover:bg-red-100 focus:ring-red-500 focus:border-red-500',
+    },
 };
 
 /**
@@ -45,50 +52,44 @@ const colorVariantClasses = {
  * @param {Function} [_props.icon] - Optional icon to display inside the button.
  */
 export default function Button(_props) {
-	const props = mergeProps(
-		{
-			type: 'button',
-			class: '',
-			size: 'medium',
-			color: 'primary',
-			variant: 'filled',
-			children,
-			isLoading: false,
-			loadingText: 'Loading...',
-			disabled: false,
-		},
-		_props
-	);
-	const IconComponent = () => props.icon;
+    const props = mergeProps(
+        {
+            type: 'button',
+            class: '',
+            size: 'medium',
+            color: 'primary',
+            variant: 'filled',
+            children,
+            isLoading: false,
+            loadingText: 'Loading...',
+            disabled: false,
+        },
+        _props
+    );
+    const IconComponent = () => props.icon;
 
-	const safeChildren = children(() => props.children);
+    const safeChildren = children(() => props.children);
 
-	const getButtonClassNames = () =>
-		twMerge(
-			'block w-full rounded-md border-0 ring-1 ring-inset disabled:cursor-not-allowed disabled:opacity-50 transition-opacity duration-200',
-			sizeClasses[props.size],
-			colorVariantClasses[props.color][props.variant],
-			props.class
-		);
+    const getButtonClassNames = () =>
+        twMerge(
+            'block w-full rounded-md border-0 ring-1 ring-inset disabled:cursor-not-allowed disabled:opacity-50 transition-opacity duration-200',
+            sizeClasses[props.size],
+            colorVariantClasses[props.color][props.variant],
+            props.class
+        );
 
-	return (
-		<button
-			id={props.id}
-			type={props.type}
-			name={props.name}
-			class={getButtonClassNames()}
-			placeholder={props.placeholder}
-		>
-			<Show when={props.isLoading}>
-				<div class="flex items-center justify-center gap-2">
-					<LoadingSpinner />
-					{props.loadingText}
-				</div>
-			</Show>
-			<Show when={!props.isLoading}>
-				{props.icon && <IconComponent />}
-				{safeChildren()}
-			</Show>
-		</button>
-	);
+    return (
+        <button id={props.id} type={props.type} name={props.name} class={getButtonClassNames()} placeholder={props.placeholder}>
+            <Show when={props.isLoading}>
+                <div class="flex items-center justify-center gap-2">
+                    <LoadingSpinner />
+                    {props.loadingText}
+                </div>
+            </Show>
+            <Show when={!props.isLoading}>
+                {props.icon && <IconComponent />}
+                {safeChildren()}
+            </Show>
+        </button>
+    );
 }
