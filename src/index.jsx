@@ -12,4 +12,13 @@ if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
 	);
 }
 
+navigator.serviceWorker.getRegistration('./lrv.js').then((registration) => {
+	if (registration === undefined) {
+		navigator.serviceWorker.register('./lrv.js',  { scope: './', type: 'module' }).then(
+			(registration) => console.log('Registration', registration),
+			(error) => console.error(error),
+		);
+	}
+});	
+
 render(() => <App />, root);

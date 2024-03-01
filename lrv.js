@@ -141,13 +141,13 @@ addEventListener('message', async function (event) {
 
         case 'REMOVE_ID':
             if (lrv !== undefined) {
-                const entity = entities.get(event.data.id);
-                if (entity !== undefined) {
-                    // entity.remove();
-                }
-
                 privateKeys.delete(event.data.id);
-                entities.delete(event.data.id);
+
+                const entity = entities.get(event.data.id);
+                if (entity) {
+                    entity.unsubscribe();
+                    entities.delete(event.data.id);
+                }
             }
             break;
 
@@ -156,11 +156,11 @@ addEventListener('message', async function (event) {
                 seed = undefined;
                 privateKeys.clear();
 
-                id = '';
-
-                // entities.forEach(entity => entity.destroy());
+                entities.forEach(entity => entity.unsubscribe());
                 entities.clear();
 
+
+                id = '';
                 event.source.postMessage({
                     command: 'ID',
                     id,
