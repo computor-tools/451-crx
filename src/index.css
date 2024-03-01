@@ -67,10 +67,12 @@
 		font-family: 'Noto Sans', system-ui, sans-serif;
 		background-color: #f9fafb;
 	}
+
 	html::-webkit-scrollbar {
 		width: var(--scrollbar-size); /* Needed for vertical scrollbars */
 		height: var(--scrollbar-size); /* Needed for horizontal scrollbars */
 	}
+
 	html::-webkit-scrollbar-track {
 		background: #f1f1f1;
 	}
