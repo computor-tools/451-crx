@@ -1,7 +1,7 @@
-import { Match, Switch, createEffect, createSignal } from 'solid-js';
-
-import { AssetsTable, NavBar } from '@/components';
+import { NavBar } from '@/components';
 import { Navigate } from '@solidjs/router';
+import { Match, Switch, createEffect, createSignal } from 'solid-js';
+import { AssetsTable, CopyIdClipboard } from './components';
 
 export default function Home() {
 	const [entity, setEntity] = createSignal(undefined);
@@ -16,20 +16,22 @@ export default function Home() {
 				}
 			});
 
-			navigator.serviceWorker.ready.then((registration) => registration.active.postMessage({
-				command: 'ID',
-			}));
+			navigator.serviceWorker.ready.then((registration) =>
+				registration.active.postMessage({
+					command: 'ID',
+				})
+			);
 		}
 	});
 
 	return (
-		<Switch fallback={<div>Loading......</div>}>
+		<Switch fallback={<div>Loading...</div>}>
 			<Match when={entity()?.id === ''}>
 				<Navigate href="/login" />
 			</Match>
 			<Match when={entity()?.id}>
-				<div class="flex flex-col gap-10 justify-center items-center">
-					<div>{entity().id}</div>
+				<div class="flex flex-col gap-10 justify-center items-center -mt-10">
+					<CopyIdClipboard entityId={entity()?.id} />
 					<NavBar />
 					<AssetsTable />
 				</div>
