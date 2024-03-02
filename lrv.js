@@ -54,7 +54,7 @@ const entityListener = function (entity) {
     const entityMessage = entityMessages.get(entity.id);
     if (entityMessage) {
         if (entityMessage.entity.tick === undefined || entityMessage.entity.tick < entity.tick) {
-            entityMessage.entity = {
+            entityMessage.entity = Object.freeze({
                 id: entity.id,
                 energy: entity.energy,
                 incomingAmount: entity.incomingAmount,
@@ -73,8 +73,8 @@ const entityListener = function (entity) {
                 spectrumIndex: entity.spectrumIndex,
                 spectrumDigest: entity.spectrumDigest,
 
-                outgoingTransfer: entity.outgoingTransfer,
-            };
+                outgoingTransaction: entity.outgoingTransaction,
+            });
 
             postMessage(entityMessage);
         }
@@ -92,7 +92,6 @@ const tickStatsListener = function (stats) {
 const errorListener = function (error) {
     console.log(error);
 };
-
 
 const postMessage = (message) => {
     self.clients.matchAll().then((clients) => clients?.forEach((client) => client.postMessage(message)));
@@ -118,10 +117,10 @@ const addEntity = async function (event) {
     return entity.id;
 };
 
-
 self.addEventListener('message', async function (event) {
     switch (event.data.command) {
         case 'INIT':
+            console.log('initializing...');
             event.source.postMessage(entityMessages.get(currentId));
 
             if (lrv === undefined) {
@@ -183,6 +182,37 @@ self.addEventListener('message', async function (event) {
             if (lrv !== undefined) {
                 if (seed !== undefined) {
                     addEntity(event);
+                }
+            }
+            break;
+
+        case 'TRANSACTION':
+            if (lrv !== undefined) {
+                if (currentId) {
+                    const entity = entities.get(event.data.sourceId);
+                    let transaction;
+                    try {
+                        transaction = await entity.createTransaction(privateKeys.get(event.data.sourceId), {
+                            sourceId: event.data.sourceId,
+                            destinationId: event.data.destinationId,
+                            amount: event.data.amount,
+                            tick: event.data.tick,
+                        });
+                    } catch (error) {
+                        event.source.postMessage({
+                            command: 'TRANSACTION',
+                            errorMessage: error.message,
+                        });
+                    }
+
+                    if (transaction) {
+                        entity.broadcastTransaction();
+
+                        postMessage({
+                            command: 'TRANSACTION',
+                            transaction,
+                        });
+                    }
                 }
             }
             break;

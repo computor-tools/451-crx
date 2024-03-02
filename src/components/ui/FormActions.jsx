@@ -64,6 +64,7 @@ export default function FormActions(_props) {
 					isLoading={props.isLoadingConfirm}
 					loadingText={props.loadingTextConfirm}
 					disabled={props.disableConfirm}
+					type="submit"
 				>
 					{props.confirmLabel}
 				</Button>

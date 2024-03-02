@@ -2,7 +2,7 @@ import networkStatus from '@/signals/network-status';
 import { StatusIndicator } from '../ui';
 
 const appendTickAndEpoch = function (epoch, tick) {
-    return epoch ? `${epoch}${tick ? `|${new Intl.NumberFormat().format(tick)}` : ''}` : '';
+    return epoch ? `${epoch}${tick ? `|${tick.toLocaleString()}` : ''}` : '';
 };
 
 export default function NetworkStatus() {

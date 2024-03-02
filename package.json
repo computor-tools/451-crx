@@ -16,7 +16,7 @@
   "dependencies": {
     "@solidjs/router": "^0.12.3",
     "events": "^3.3.0",
-    "qubic-lrv": "github:computor-tools/qubic-lrv#125c46a3c1b3e1f9e816b80d882e0b44d1ac1aae",
+    "qubic-lrv": "github:computor-tools/qubic-lrv#eb989e5454b341c50ba9533446a109a203d0c65a",
     "solid-js": "^1.8.15"
   },
   "trustedDependencies": ["qubic-lrv"],

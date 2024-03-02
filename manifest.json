@@ -17,7 +17,7 @@
     "wss://*/*"
   ],
   "background": {
-    "service_worker": "src/lrv.js",
+    "service_worker": "lrv.js",
     "type": "module",
     "persistent": true
   },
