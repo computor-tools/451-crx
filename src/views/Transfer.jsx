@@ -1,6 +1,8 @@
 import { FormActions, Input } from '@/components/ui';
 import { BackButton } from '@/components/ui/buttons';
 
+import entity from '@/signals/entity';
+
 export default function Transfer() {
 	// TODO: Implement the EnergyTransfer view funcionality
 	// This could be trasnfer page and have tabs for different types of transfer (QUs, Assets,...)
@@ -12,7 +14,7 @@ export default function Transfer() {
 
 				<div class="grid place-items-center gap-1">
 					<h2 class="text-xs">Source ID</h2>
-					<span class="text-xxs border p-2 rounded-lg" />
+					<span class="text-xxs border p-2 rounded-lg">{entity().id || ''}</span>
 				</div>
 			</div>
 
