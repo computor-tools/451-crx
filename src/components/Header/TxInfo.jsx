@@ -1,10 +1,11 @@
 import { Button } from '@/components/ui/buttons';
-import { Show, Switch, Match } from 'solid-js';
+import { createSignal, Show, Switch, Match } from 'solid-js';
 import { twMerge } from 'tailwind-merge';
 import { Badge } from '../ui';
 
 import networkStatus from '@/signals/network-status';
 import entity from '@/signals/entity';
+import { TICK_OFFSET } from '@/signals/constants';
 
 const CONTRACT_DESCRIPTIONS = [
     {
@@ -39,18 +40,53 @@ const CONTRACT_DESCRIPTIONS = [
     },
 ];
 
+const broadcastChannel = new BroadcastChannel('user-control');
+
 const TxActions = function(props) {
     return (
         <Show when={entity().outgoingTransaction.executed === false} fallback={
-            <Show when={entity().outgoingTransaction.executed === undefined && networkStatus.tick()?.tick}>
-                <span>Pending... ({entity().outgoingTransaction.tick - networkStatus.tick().tick} ticks)</span>
+            <Show when={entity().outgoingTransaction.executed === undefined}>
+                <span>Pending... <Show when={networkStatus.tick()?.tick}>({Math.max(0, entity().outgoingTransaction.tick - networkStatus.tick().tick)} ticks)</Show></span>
             </Show>
         }>
             <div class="flex w-2/4 gap-4">
-                <Button size="x-small" color={props.primaryActionColor}>
-                    {props.primaryAction}
+                <Button disabled={!networkStatus.tick()} size="x-small" color={props.accentColor} onClick={() => {
+                    if (entity().outgoingTransaction.executed === false) {
+                        props.setErrorMessage('');
+
+                        navigator.serviceWorker.addEventListener('message', function setErrorMessageIfAny(event) {
+                            if (event.data.command === 'TRANSACTION') {
+                                if (!event.data.transaction) {
+                                    props.setErrorMessage(event.data.errorMessage);
+                                } else {
+                                    navigator.serviceWorker.removeEventListener('message', setErrorMessageIfAny);
+                                }
+                            }
+                        });
+
+                        console.log('retry', {
+                            sourceId: entity().id,
+                            destinationId: entity().outgoingTransaction.destinationId,
+                            amount: entity().outgoingTransaction.amount,
+                            tick: networkStatus.tick().tick + TICK_OFFSET,
+                        });
+                        // eslint-disable-next-line solid/reactivity
+                        navigator.serviceWorker.ready.then(() => navigator.serviceWorker.controller.postMessage({
+                            command: 'TRANSACTION',
+                            sourceId: entity().id,
+                            destinationId: entity().outgoingTransaction.destinationId,
+                            amount: entity().outgoingTransaction.amount,
+                            tick: networkStatus.tick().tick + TICK_OFFSET,
+                        }));
+                    }
+                }}>
+                    {props.retryText}
                 </Button>
-                <Button size="x-small" color="red" variant="outlined" class="w-2/4">
+                <Button size="x-small" color="red" variant="outlined" class="w-2/4" onClick={() => {
+                    broadcastChannel.postMessage({
+                        command: 'DISCARD_TRANSACTION',
+                    });
+                }}>
                     Discard
                 </Button>
             </div>
@@ -59,13 +95,20 @@ const TxActions = function(props) {
 };
 
 const TxHead = function (props) {
-    return (
-        <div class="flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                {props.children}
-            </div>
+    const [errorMessage, setErrorMessage] = createSignal('');
 
-            <TxActions primaryAction={props.primaryAction} primaryActionColor={props.primaryActionColor} />
+    return (
+        <div>
+            <Show when={errorMessage()}>
+                <span>{errorMessage()}</span>
+            </Show>
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    {props.children}
+                </div>
+
+                <TxActions retryText={props.retryText} accentColor={props.accentColor} setErrorMessage={(message) => setErrorMessage(message)} />
+            </div>
         </div>
     )
 };
@@ -79,7 +122,7 @@ export default function TxInfo(props) {
                     <Switch>
                         <Match when={entity().outgoingTransaction.executedContractIndex === 0}>
                             {/* Qu transfer */}
-                            <TxHead primaryAction="Retry transfer" primaryActionColor="green">
+                            <TxHead retryText="Retry transfer" accentColor="green">
                                 <span class="text-xxs border p-2 rounded-lg">{entity().outgoingTransaction.destinationId}</span>
                             </TxHead>
 
@@ -93,7 +136,7 @@ export default function TxInfo(props) {
                             <Switch>
                                 <Match when={entity().outgoingTransaction.contractIPO_BidAmount}>
                                     {/* SC IPO bid */}
-                                    <TxHead primaryAction="Retry bid" primaryActionColor="green">
+                                    <TxHead retryText="Retry bid" accentColor="green">
                                         <h2>SC {CONTRACT_DESCRIPTIONS[entity().outgoingTransaction.executedContractIndex].name} ({entity().outgoingTransaction.executedContractIndex})</h2>
                                         <Badge size="x-small">by QUORUM</Badge>
                                     </TxHead>

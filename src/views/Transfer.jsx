@@ -6,8 +6,7 @@ import { BackButton } from '@/components/ui/buttons';
 
 import networkStatus from '@/signals/network-status';
 import entity from '@/signals/entity';
-
-const TICK_OFFSET = 10;
+import { TICK_OFFSET } from '@/signals/constants';
 
 export default function Transfer() {
 	const navigate = useNavigate();
@@ -100,7 +99,7 @@ export default function Transfer() {
 										setExecutionTickOffset(offset);
 										setExecutionTickErrorMessage('');
 									} else {
-										setExecutionTickErrorMessage(`Use at least ${TICK_OFFSET} ticks offset`);
+										setExecutionTickErrorMessage(`Use at least ${TICK_OFFSET} ticks`);
 									}
 								}
 							}}
