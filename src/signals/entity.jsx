@@ -9,6 +9,14 @@ export default createRoot(function () {
                 console.log(event.data.entity);
                 setEntity(event.data.entity);
                 break;
+            case 'TRANSACTION':
+                if (event.data.transaction) {
+                    setEntity((current) => (!current.outgoingTransaction ? {
+                        ...current,
+                        outgoingTransaction: event.data.transaction,
+                    } : current));
+                }
+                break;
         }
     });
 

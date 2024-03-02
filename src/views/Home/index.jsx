@@ -12,7 +12,7 @@ export default function Home() {
 				<Navigate href="/login" />
 			</Match>
 			<Match when={entity()?.id}>
-				<div class="flex flex-col gap-10 justify-center items-center -mt-10">
+				<div class="flex flex-col gap-10 justify-center items-center">
 					<CopyIdClipboard entityId={entity().id} />
 					<NavBar />
 					<AssetsTable />
