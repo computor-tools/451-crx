@@ -93,6 +93,7 @@ const errorListener = function (error) {
     console.log(error);
 };
 
+
 const postMessage = (message) => {
     self.clients.matchAll().then((clients) => clients?.forEach((client) => client.postMessage(message)));
 };
@@ -116,6 +117,7 @@ const addEntity = async function (event) {
 
     return entity.id;
 };
+
 
 self.addEventListener('message', async function (event) {
     switch (event.data.command) {
