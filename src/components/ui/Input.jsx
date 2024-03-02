@@ -53,13 +53,16 @@ export default function Input(_props) {
 		{
 			type: 'text',
 			placeholder: '',
-			defaultValue: '',
+			value: '',
 			class: '',
 			size: 'medium',
 			color: 'primary',
 			variant: 'outlined',
 			errorMessage: '',
 			icon: ExclamationCircleIcon,
+			disabled: false,
+			onInput: () => {},
+			onChange: () => {},
 		},
 		_props
 	);
@@ -95,11 +98,12 @@ export default function Input(_props) {
 					id={props.id}
 					class={getInputClassNames()}
 					placeholder={props.placeholder}
-					defaultValue={props.defaultValue}
+					value={props.value}
 					aria-invalid={!!props.errorMessage}
 					aria-describedby={
 						props.errorMessage ? `${props.id}-error` : undefined
 					}
+					disabled={props.disabled}
 					onInput={(...args) => props.onInput(...args)}
 					onChange={(...args) =>  props.onChange(...args)}
 				/>

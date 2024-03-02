@@ -9,7 +9,7 @@ export default function App() {
 			<Route path="/" component={Home} />
 			<Route path="/login" component={Login} />
 			<Route path="/logout" component={() => {
-				navigator.serviceWorker.ready.then((registration) => registration.active.postMessage({
+				navigator.serviceWorker.ready.then(() => navigator.serviceWorker.controller.postMessage({
 					command: 'LOGOUT',
 				}));
 
