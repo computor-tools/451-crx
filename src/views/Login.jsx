@@ -5,7 +5,6 @@ import { Input } from '@/components/ui';
 import { Button } from '@/components/ui/buttons';
 import { useNavigate } from '@solidjs/router';
 
-
 export default function Login() {
     const navigate = useNavigate();
 
@@ -22,14 +21,17 @@ export default function Login() {
                 if (new RegExp(`^[a-z]{${SEED_LENGTH}}$`).test(seed())) {
                     setDisabled(true);
 
-                    navigator.serviceWorker.addEventListener('message', (event) => {
-                        if (event.data.id) {
-                            navigate('/', { replace: true });
+                    navigator.serviceWorker.addEventListener('message', function redirect(event) {
+                        if (event.data.command === 'ENTITY') {
+                            if (event.data.entity.id) {
+                                navigate('/', { replace: true });
+                                navigator.serviceWorker.removeEventListener('message', redirect);
+                            }
                         }
                     });
 
                     // eslint-disable-next-line solid/reactivity
-                    navigator.serviceWorker.ready.then((registration) => registration.active.postMessage({
+                    navigator.serviceWorker.ready.then(() => navigator.serviceWorker.controller.postMessage({
                         command: 'LOGIN',
                         seed: seed(),
                         index: 0,

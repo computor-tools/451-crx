@@ -2,17 +2,82 @@ import * as qubic from 'qubic-lrv';
 
 let lrv;
 
+let seed;
+const privateKeys = new Map();
+
+let currentId = '';
+const entities = new Map();
+const entityMessages = new Map();
+entityMessages.set('', {
+    command: 'ENTITY',
+    entity: {
+        id: '',
+    },
+});
+
 let latestBroadcastedComputors;
 let latestTick;
 
-let epochListener;
-let tickListener;
+const epochListener = function (broadcastedComputors) {
+    console.log('Epoch:', broadcastedComputors.epoch);
+
+    if (latestBroadcastedComputors === undefined || latestBroadcastedComputors.epoch < broadcastedComputors.epoch) {
+        latestBroadcastedComputors = broadcastedComputors;
+
+        postMessage({
+            command: 'EPOCH',
+            broadcastedComputors,
+        });
+    }
+};
+
+const tickListener = function (tick) {
+    console.log('\nTick  :', tick.tick, tick.spectrumDigest, tick.universeDigest, tick.computerDigest);
+
+    if (latestTick === undefined || latestTick.tick < tick.tick) {
+        latestTick = tick;
+
+        postMessage({
+            command: 'TICK',
+            tick,
+        });
+    }
+};
 
 const entityListener = function (entity) {
     if (entity.outgoingTransfer !== undefined) {
         console.log('Entity:', entity.tick, entity.spectrumDigest, entity.id, entity.energy, entity.outgoingTransfer.digest, entity.outgoingTransfer.tick, 'executed:', entity.outgoingTransfer.executed);
     } else {
         console.log('Entity:', entity.tick, entity.spectrumDigest, entity.id, entity.energy);
+    }
+
+    const entityMessage = entityMessages.get(entity.id);
+    if (entityMessage) {
+        if (entityMessage.entity.tick === undefined || entityMessage.entity.tick < entity.tick) {
+            entityMessage.entity = Object.freeze({
+                id: entity.id,
+                energy: entity.energy,
+                incomingAmount: entity.incomingAmount,
+                outgoingAmount: entity.outgoingAmount,
+                numberOfIncomingTransfers: entity.numberOfIncomingTransfers,
+                numberOfOutgoingTransfers: entity.numberOfOutgoingTransfers,
+                latestIncomingTransferTick: entity.latestIncomingTransferTick,
+                latestOutgoingTransferTick: entity.latestOutgoingTransferTick,
+
+                tick: entity.tick,
+                epoch: entity.epoch,
+                timestamp: entity.timestamp,
+
+                digest: entity.digest,
+                siblings: entity.siblings,
+                spectrumIndex: entity.spectrumIndex,
+                spectrumDigest: entity.spectrumDigest,
+
+                outgoingTransaction: entity.outgoingTransaction,
+            });
+
+            postMessage(entityMessage);
+        }
     }
 };
 
@@ -28,58 +93,38 @@ const errorListener = function (error) {
     console.log(error);
 };
 
-let seed;
-let id = '';
-const privateKeys = new Map();
-const entities = new Map();
+const postMessage = (message) => {
+    self.clients.matchAll().then((clients) => clients?.forEach((client) => client.postMessage(message)));
+};
 
-const addId = async function (event) {
+const addEntity = async function (event) {
     const privateKey = await qubic.createPrivateKey(seed, event.data.index);
     const entity = await lrv.createEntity(privateKey);
 
     privateKeys.set(entity.id, privateKey);
     entities.set(entity.id, entity);
 
-    event.source.postMessage({
-        command: 'ID',
-        id: entity.id,
-    });
+    const entityMessage = {
+        command: 'ENTITY',
+        entity: {
+            id: entity.id,
+        },
+    };
+    entityMessages.set(entity.id, entityMessage);
+
+    postMessage(entityMessage);
 
     return entity.id;
 };
 
-addEventListener('message', async function (event) {
+self.addEventListener('message', async function (event) {
     switch (event.data.command) {
         case 'INIT':
-            event.source.postMessage({
-                command: 'ID',
-                id,
-            });
+            console.log('initializing...');
+            event.source.postMessage(entityMessages.get(currentId));
 
             if (lrv === undefined) {
                 lrv = qubic.lrv();
-
-                epochListener = function (broadcastedComputors) {
-                    console.log('Epoch:', broadcastedComputors.epoch);
-
-                    latestBroadcastedComputors = broadcastedComputors;
-
-                    event.source.postMessage({
-                        command: 'EPOCH',
-                        broadcastedComputors,
-                    });
-                };
-
-                tickListener = function (tick) {
-                    console.log('\nTick  :', tick.tick, tick.spectrumDigest, tick.universeDigest, tick.computerDigest);
-
-                    latestTick = tick;
-
-                    event.source.postMessage({
-                        command: 'TICK',
-                        tick,
-                    });
-                };
 
                 await lrv.subscribe({ id: qubic.ARBITRATOR }); // subscribe to arbitrary id
 
@@ -113,12 +158,14 @@ addEventListener('message', async function (event) {
 
             break;
 
-        case 'ID':
-            if (id) {
-                event.source.postMessage({
-                    command: 'ID',
-                    id,
-                });
+        case 'ENTITY':
+            if (event.data.id) {
+                if (entities.has(event.data.id)) {
+                    currentId = event.data.id;
+                }
+            }
+            if (currentId) {
+                event.source.postMessage(entityMessages.get(currentId));
             }
             break;
 
@@ -126,27 +173,46 @@ addEventListener('message', async function (event) {
             if (lrv !== undefined) {
                 if (seed === undefined) {
                     seed = event.data.seed;
-                    id = await addId(event);
+                    currentId = await addEntity(event);
                 }
             }
             break;
 
-        case 'ADD_ID':
+        case 'ADD_ENTITY':
             if (lrv !== undefined) {
                 if (seed !== undefined) {
-                    addId(event);
+                    addEntity(event);
                 }
             }
             break;
 
-        case 'REMOVE_ID':
+        case 'TRANSACTION':
             if (lrv !== undefined) {
-                privateKeys.delete(event.data.id);
+                if (currentId) {
+                    const entity = entities.get(event.data.sourceId);
+                    let transaction;
+                    try {
+                        transaction = await entity.createTransaction(privateKeys.get(event.data.sourceId), {
+                            sourceId: event.data.sourceId,
+                            destinationId: event.data.destinationId,
+                            amount: event.data.amount,
+                            tick: event.data.tick,
+                        });
+                    } catch (error) {
+                        event.source.postMessage({
+                            command: 'TRANSACTION',
+                            errorMessage: error.message,
+                        });
+                    }
 
-                const entity = entities.get(event.data.id);
-                if (entity) {
-                    entity.unsubscribe();
-                    entities.delete(event.data.id);
+                    if (transaction) {
+                        entity.broadcastTransaction();
+
+                        postMessage({
+                            command: 'TRANSACTION',
+                            transaction,
+                        });
+                    }
                 }
             }
             break;
@@ -159,12 +225,8 @@ addEventListener('message', async function (event) {
                 entities.forEach(entity => entity.unsubscribe());
                 entities.clear();
 
-
-                id = '';
-                event.source.postMessage({
-                    command: 'ID',
-                    id,
-                });
+                currentId = '';
+                postMessage(entityMessages.get(''));
             }
             break;
     }

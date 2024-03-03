@@ -19,6 +19,6 @@ navigator.serviceWorker.getRegistration('./lrv.js').then((registration) => {
 			(error) => console.error(error),
 		);
 	}
-});	
+});
 
 render(() => <App />, root);

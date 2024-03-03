@@ -63,6 +63,7 @@ export default function Button(_props) {
             isLoading: false,
             loadingText: 'Loading...',
             disabled: false,
+            onClick: () => {},
         },
         _props
     );
@@ -79,7 +80,7 @@ export default function Button(_props) {
         );
 
     return (
-        <button id={props.id} type={props.type} name={props.name} class={getButtonClassNames()} placeholder={props.placeholder}>
+        <button id={props.id} type={props.type} name={props.name} class={getButtonClassNames()} placeholder={props.placeholder} onClick={(...args) => props.onClick(...args)}>
             <Show when={props.isLoading}>
                 <div class="flex items-center justify-center gap-2">
                     <LoadingSpinner />
