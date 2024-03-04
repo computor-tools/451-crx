@@ -24,6 +24,11 @@ export default function Login() {
                     navigator.serviceWorker.addEventListener('message', function redirect(event) {
                         if (event.data.command === 'ENTITY') {
                             if (event.data.entity.id) {
+                                navigator.serviceWorker.ready.then(() => navigator.serviceWorker.controller.postMessage({
+                                    command: 'GET_TRANSACTIONS',
+                                    id: event.data.entity.id,
+                                }));
+
                                 navigate('/', { replace: true });
                                 navigator.serviceWorker.removeEventListener('message', redirect);
                             }

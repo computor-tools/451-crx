@@ -29,7 +29,27 @@ export default createRoot(function () {
                     setEntity((current) => ((!current?.outgoingTransaction || current?.outgoingTransaction?.executed === false) ? {
                         ...current,
                         outgoingTransaction: event.data.transaction,
+                        transactions: {
+                            ...(current?.transactions || {}),
+                            [event.data.transaction.digest]: event.data.transaction,
+                        },
                     } : current));
+                }
+                break;
+            case 'GET_TRANSACTIONS':
+                if (event.data.transactions) {
+                    console.log(event.data.transactions);
+                    setEntity((current) => ({
+                        ...current,
+                        transactions: event.data.transactions.reduce((acc, transaction) => {
+                            acc[transaction.digest] = transaction;
+                            return acc;
+                        }, {}),
+                    }));
+                } else {
+                    if (event.data.errorMessage) {
+                        // TODO: disaply error
+                    }
                 }
                 break;
         }
