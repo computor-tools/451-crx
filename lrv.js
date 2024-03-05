@@ -18,6 +18,10 @@ entityMessages.set('', {
 let latestBroadcastedComputors;
 let latestTick;
 
+const postMessage = (message) => {
+    self.clients.matchAll().then((clients) => clients?.forEach((client) => client.postMessage(message)));
+};
+
 const epochListener = function (broadcastedComputors) {
     console.log('Epoch:', broadcastedComputors.epoch);
 
@@ -81,8 +85,11 @@ const entityListener = function (entity) {
     }
 };
 
-const transferListener = function (transfer) {
-    console.log('Transfer:', transfer);
+const transferListener = function (transaction) {
+    postMessage({
+        command: 'TRANSACTION',
+        transaction,
+    });
 };
 
 const tickStatsListener = function (stats) {
@@ -91,10 +98,6 @@ const tickStatsListener = function (stats) {
 
 const errorListener = function (error) {
     console.log(error);
-};
-
-const postMessage = (message) => {
-    self.clients.matchAll().then((clients) => clients?.forEach((client) => client.postMessage(message)));
 };
 
 const addEntity = async function (event) {
@@ -211,6 +214,34 @@ self.addEventListener('message', async function (event) {
                         postMessage({
                             command: 'TRANSACTION',
                             transaction,
+                        });
+                    }
+                }
+            }
+            break;
+
+        case 'GET_TRANSACTIONS':
+            if (lrv !== undefined) {
+                const entity = entities.get(event.data.id);
+                let transactions;
+
+                if (entity) {
+                    try {
+                        transactions = await entity.getTransactions(event.data.offset, event.data.count);
+                    } catch (error) {
+                        console.log(error);
+                        postMessage({
+                            command: 'GET_TRANSACTIONS',
+                            id: entity.id,
+                            errorMessage: error.message,
+                        });
+                    }
+
+                    if (transactions !== undefined) {
+                        postMessage({
+                            command: 'GET_TRANSACTIONS',
+                            id: entity.id,
+                            transactions,
                         });
                     }
                 }
