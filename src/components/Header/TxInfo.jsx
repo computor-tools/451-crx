@@ -1,11 +1,13 @@
+import { HistoryIcon } from '@/assets/icons';
 import { Button } from '@/components/ui/buttons';
-import { createSignal, Show, Switch, Match } from 'solid-js';
+import { formatQubic } from '@/utils/units';
+import { Match, Show, Switch, createSignal } from 'solid-js';
 import { twMerge } from 'tailwind-merge';
 import { Badge } from '../ui';
 
-import networkStatus from '@/signals/network-status';
-import entity from '@/signals/entity';
 import { TICK_OFFSET } from '@/signals/constants';
+import entity from '@/signals/entity';
+import networkStatus from '@/signals/network-status';
 
 const CONTRACT_DESCRIPTIONS = [
     {
@@ -42,51 +44,70 @@ const CONTRACT_DESCRIPTIONS = [
 
 const broadcastChannel = new BroadcastChannel('user-control');
 
-const TxActions = function(props) {
+const TxActions = function (props) {
     return (
-        <Show when={entity().outgoingTransaction.executed === false} fallback={
-            <Show when={entity().outgoingTransaction.executed === undefined}>
-                <span>Pending... <Show when={networkStatus.tick()?.tick}>({Math.max(0, entity().outgoingTransaction.tick - networkStatus.tick().tick)} ticks)</Show></span>
-            </Show>
-        }>
+        <Show
+            when={entity().outgoingTransaction.executed === false}
+            fallback={
+                <Show when={entity().outgoingTransaction.executed === undefined}>
+                    <span class="text-warning flex items-center">
+                        <HistoryIcon class="w-4 h-4 text-warning m-1" />
+                        Pending... <Show when={networkStatus.tick()?.tick}>({Math.max(0, entity().outgoingTransaction.tick - networkStatus.tick().tick)} ticks)</Show>
+                    </span>
+                </Show>
+            }
+        >
             <div class="flex w-2/4 gap-4">
-                <Button disabled={!networkStatus.tick()} size="x-small" color={props.accentColor} onClick={() => {
-                    if (entity().outgoingTransaction.executed === false) {
-                        props.setErrorMessage('');
+                <Button
+                    disabled={!networkStatus.tick()}
+                    size="x-small"
+                    color={props.accentColor}
+                    onClick={() => {
+                        if (entity().outgoingTransaction.executed === false) {
+                            props.setErrorMessage('');
 
-                        navigator.serviceWorker.addEventListener('message', function setErrorMessageIfAny(event) {
-                            if (event.data.command === 'TRANSACTION') {
-                                if (!event.data.transaction) {
-                                    props.setErrorMessage(event.data.errorMessage);
-                                } else {
-                                    navigator.serviceWorker.removeEventListener('message', setErrorMessageIfAny);
+                            navigator.serviceWorker.addEventListener('message', function setErrorMessageIfAny(event) {
+                                if (event.data.command === 'TRANSACTION') {
+                                    if (!event.data.transaction) {
+                                        props.setErrorMessage(event.data.errorMessage);
+                                    } else {
+                                        navigator.serviceWorker.removeEventListener('message', setErrorMessageIfAny);
+                                    }
                                 }
-                            }
-                        });
+                            });
 
-                        console.log('retry', {
-                            sourceId: entity().id,
-                            destinationId: entity().outgoingTransaction.destinationId,
-                            amount: entity().outgoingTransaction.amount,
-                            tick: networkStatus.tick().tick + TICK_OFFSET,
-                        });
-                        // eslint-disable-next-line solid/reactivity
-                        navigator.serviceWorker.ready.then(() => navigator.serviceWorker.controller.postMessage({
-                            command: 'TRANSACTION',
-                            sourceId: entity().id,
-                            destinationId: entity().outgoingTransaction.destinationId,
-                            amount: entity().outgoingTransaction.amount,
-                            tick: networkStatus.tick().tick + TICK_OFFSET,
-                        }));
-                    }
-                }}>
+                            console.log('retry', {
+                                sourceId: entity().id,
+                                destinationId: entity().outgoingTransaction.destinationId,
+                                amount: entity().outgoingTransaction.amount,
+                                tick: networkStatus.tick().tick + TICK_OFFSET,
+                            });
+                            // eslint-disable-next-line solid/reactivity
+                            navigator.serviceWorker.ready.then(() =>
+                                navigator.serviceWorker.controller.postMessage({
+                                    command: 'TRANSACTION',
+                                    sourceId: entity().id,
+                                    destinationId: entity().outgoingTransaction.destinationId,
+                                    amount: entity().outgoingTransaction.amount,
+                                    tick: networkStatus.tick().tick + TICK_OFFSET,
+                                })
+                            );
+                        }
+                    }}
+                >
                     {props.retryText}
                 </Button>
-                <Button size="x-small" color="red" variant="outlined" class="w-2/4" onClick={() => {
-                    broadcastChannel.postMessage({
-                        command: 'DISCARD_TRANSACTION',
-                    });
-                }}>
+                <Button
+                    size="x-small"
+                    color="red"
+                    variant="outlined"
+                    class="w-2/4"
+                    onClick={() => {
+                        broadcastChannel.postMessage({
+                            command: 'DISCARD_TRANSACTION',
+                        });
+                    }}
+                >
                     Discard
                 </Button>
             </div>
@@ -103,22 +124,19 @@ const TxHead = function (props) {
                 <span>{errorMessage()}</span>
             </Show>
             <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                    {props.children}
-                </div>
+                <div class="flex items-center gap-2">{props.children}</div>
 
                 <TxActions retryText={props.retryText} accentColor={props.accentColor} setErrorMessage={(message) => setErrorMessage(message)} />
             </div>
         </div>
-    )
+    );
 };
 
 export default function TxInfo(props) {
     return (
         <Show when={entity()?.outgoingTransaction && !entity()?.outgoingTransaction.executed}>
-            <div class={twMerge('pace-y-3 px-6 py-5 border-y-2 border-orange-300 w-full  bg-[rgba(230,121,0,0.2)] mt-10', props.class)}>
+            <div class={twMerge('pace-y-3 px-6 py-5 border-y-2 border-warning w-full  bg-warning/20 mt-10', props.class)}>
                 <div class="space-y-5">
-
                     <Switch>
                         <Match when={entity().outgoingTransaction.executedContractIndex === 0}>
                             {/* Qu transfer */}
@@ -127,17 +145,19 @@ export default function TxInfo(props) {
                             </TxHead>
 
                             <div>
-                                <span class="text-red-500">-{entity().outgoingTransaction.amount.toLocaleString()} Qus</span>
+                                <span class="text-red-500">-{formatQubic(entity().outgoingTransaction.amount)}</span>
                             </div>
                         </Match>
 
                         <Match when={entity().outgoingTransaction.executedContractIndex > 0}>
-
                             <Switch>
                                 <Match when={entity().outgoingTransaction.contractIPO_BidAmount}>
                                     {/* SC IPO bid */}
                                     <TxHead retryText="Retry bid" accentColor="green">
-                                        <h2>SC {CONTRACT_DESCRIPTIONS[entity().outgoingTransaction.executedContractIndex].name} ({entity().outgoingTransaction.executedContractIndex})</h2>
+                                        <h2>
+                                            SC {CONTRACT_DESCRIPTIONS[entity().outgoingTransaction.executedContractIndex].name} (
+                                            {entity().outgoingTransaction.executedContractIndex})
+                                        </h2>
                                         <Badge size="x-small">by QUORUM</Badge>
                                     </TxHead>
 
@@ -153,14 +173,13 @@ export default function TxInfo(props) {
                                                 <tbody>
                                                     <tr class="border-t">
                                                         <td class="p-2 align-top text-green-500">
-                                                            +{entity().outgoingTransaction.contractIPO_BidQuantity.toLocaleString()} {CONTRACT_DESCRIPTIONS[entity().outgoingTransaction.executedContractIndex].name} shares
+                                                            +{entity().outgoingTransaction.contractIPO_BidQuantity.toLocaleString()}{' '}
+                                                            {CONTRACT_DESCRIPTIONS[entity().outgoingTransaction.executedContractIndex].name} shares
                                                         </td>
                                                         <td class="p-2 align-top">
                                                             <div class="grid gap-1">
-                                                                <span class="text-red-500">-{entity().outgoingTransaction.contractIPO_BidAmount.toLocaleString()} Qus</span>
-                                                                <span class="text-xxs -ml-3">
-                                                                    {entity().outgoingTransaction.contractIPO_BidPrice.toLocaleString()} Qus / share
-                                                                </span>
+                                                                <span class="text-red-500">-{formatQubic(entity().outgoingTransaction.contractIPO_BidAmount)}</span>
+                                                                <span class="text-xxs -ml-3">{entity().outgoingTransaction.contractIPO_BidPrice.toLocaleString()} Qus / share</span>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -173,11 +192,14 @@ export default function TxInfo(props) {
                                 <Match when={!entity().outgoingTransaction.contractIPO_BidAmount}>
                                     {/* SC execution */}
                                     <Switch>
-                                        <Match when={entity().outgoingTransaction.executedContractIndex === CONTRACT_DESCRIPTIONS[1].index}>
-                                            {/* Qx case */}
-                                        </Match>
+                                        <Match when={entity().outgoingTransaction.executedContractIndex === CONTRACT_DESCRIPTIONS[1].index}>{/* Qx case */}</Match>
 
-                                        <Match when={entity().outgoingTransaction.executedContractIndex > CONTRACT_DESCRIPTIONS[1].index && entity().outgoingTransaction.executedContractIndex <= CONTRACT_DESCRIPTIONS[CONTRACT_DESCRIPTIONS.length - 1].index}>
+                                        <Match
+                                            when={
+                                                entity().outgoingTransaction.executedContractIndex > CONTRACT_DESCRIPTIONS[1].index &&
+                                                entity().outgoingTransaction.executedContractIndex <= CONTRACT_DESCRIPTIONS[CONTRACT_DESCRIPTIONS.length - 1].index
+                                            }
+                                        >
                                             {/* Arbitrary, other than Qx case */}
                                         </Match>
                                     </Switch>
