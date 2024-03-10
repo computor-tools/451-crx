@@ -1,26 +1,27 @@
 const IS_FORMAT_UNITS_ACTIVE = false;
 
 export const formatQubic = (amountBigInt) => {
-    const amount = Number(amountBigInt);
-
     if (!IS_FORMAT_UNITS_ACTIVE) {
-        return `${amount} Qus`;
+        return `${amountBigInt.toLocaleString()} Qus`;
     }
 
-    if (amount === 1) return '1 Qubic';
+    if (amountBigInt === BigInt(1)) return '1 Qubic';
 
     const suffixes = [
-        { threshold: 1e12, suffix: 'TQus' },
-        { threshold: 1e9, suffix: 'BQus' },
-        { threshold: 1e6, suffix: 'MQus' },
+        { threshold: BigInt(1e12), suffix: 'TQus' },
+        { threshold: BigInt(1e9), suffix: 'BQus' },
+        { threshold: BigInt(1e6), suffix: 'MQus' },
+        { threshold: BigInt(1), suffix: 'Qus' },
     ];
 
-    const { suffix, threshold } = suffixes.find(({ threshold }) => amount >= threshold) || {
-        threshold: 0,
+    const { suffix, threshold } = suffixes.find(({ threshold }) => amountBigInt >= threshold) || {
+        threshold: BigInt(1),
         suffix: 'Qus',
     };
 
-    const formattedAmount = (amount / (threshold || 1)).toLocaleString();
+    let formattedAmountBigInt = amountBigInt / threshold;
+
+    let formattedAmount = formattedAmountBigInt.toLocaleString();
 
     return `${formattedAmount} ${suffix}`;
 };
