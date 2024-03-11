@@ -24,7 +24,12 @@ export default createRoot(function () {
                         ...event.data.entity,
                         outgoingTransaction: event.data.entity.id ? current?.outgoingTransaction : undefined,
                     } : event.data.entity),
-                    transactions: event.data.entity.id ? current?.transactions : undefined,
+                    transactions: event.data.entity.id && current?.transactions ? {
+                        ...current?.transactions,
+                        ...(current?.outgoingTransaction?.executed !== undefined ? {
+                            [current.outgoingTransaction.digest]: current.outgoingTransaction
+                        } : {}),
+                    } : undefined,
                 }));
                 break;
             case 'TRANSACTION':
