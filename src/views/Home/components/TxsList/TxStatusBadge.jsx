@@ -18,7 +18,7 @@ export default function TxStatusBadge(props) {
             <Match when={props.executed === undefined || getPendingTicks()}>
                 <Badge color="warning" size="x-small" rounded class="pr-3">
                     <HistoryIcon class="w-4 h-4 text-warning mr-1 ml-0.5" />
-                    Pending <Show when={networkStatus.tick()?.tick && props.txtick}>({getPendingTicks()} ticks)</Show>
+                    Pending <Show when={networkStatus.tick()?.tick && props.txTick}>({getPendingTicks()} ticks)</Show>
                 </Badge>
             </Match>
             <Match when={props.executed === false}>
