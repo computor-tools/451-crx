@@ -15,7 +15,7 @@ export default function Header() {
             <header class="px-5 py-2 shadow flex justify-between w-[var(--vw)] h-[var(--header-height)] fixed top-0 bg-white z-10">
                 <BurgerMenu />
                 <Show when={entity()?.energy !== undefined}>
-                    <span class="mx-auto">{formatQubic(entity().energy)}</span>
+                    <span class="mx-auto absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">{formatQubic(entity().energy)}</span>
                 </Show>
                 <NetworkStatus />
             </header>
