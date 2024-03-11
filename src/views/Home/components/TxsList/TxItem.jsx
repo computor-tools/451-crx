@@ -1,8 +1,8 @@
 import { ArrowDownLeftIcon, ArrowUpRightIcon } from '@/assets/icons';
+import { TxStatusBadge } from '@/components';
 import { formatQubicTx } from '@/utils/units';
 import { createMemo, mergeProps } from 'solid-js';
 import { twMerge } from 'tailwind-merge';
-import TxStatusBadge from './TxStatusBadge';
 
 import entity from '@/signals/entity';
 

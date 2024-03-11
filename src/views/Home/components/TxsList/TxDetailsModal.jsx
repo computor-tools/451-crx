@@ -1,7 +1,7 @@
+import { TxStatusBadge } from '@/components';
 import { Modal } from '@/components/ui';
 import { formatQubicTx } from '@/utils/units';
 import { Show, createMemo, mergeProps } from 'solid-js';
-import TxStatusBadge from './TxStatusBadge';
 
 const TxDetailItem = (props) => {
     const displayValue = createMemo(() => {
