@@ -10,10 +10,13 @@ const sizeClasses = {
 
 const colorVariantClasses = {
     green: {
-        filled: 'text-white bg-emerald-500 border-emerald-500 focus:ring-emerald-500 focus:border-emerald-500 ring-0 hover:bg-emerald-600',
-        outlined: 'text-emerald-500 border-emerald-500 focus:ring-emerald-500 focus:border-emerald-500 bg-transparent ring-emerald-500 hover:bg-emerald-100',
-        text: 'text-emerald-500 bg-transparent border-transparent ring-0 hover:bg-emerald-100 focus:ring-emerald-500 focus:border-emerald-500',
+        filled: 'text-white bg-emerald-500 border-emerald-500',
+        outlined: 'text-emerald-500 border-emerald-500 bg-transparent ring-emerald-500',
+        text: 'text-emerald-500 bg-transparent border-transparent',
     },
+    success: { filled: 'bg-emerald-500/20 border-emerald-500 text-emerald-500' },
+    warning: { filled: 'bg-warning/20 border-warning text-warning' },
+    error: { filled: 'bg-error/20 border-error text-error' },
 };
 
 export default function Badge(_props) {
@@ -23,6 +26,7 @@ export default function Badge(_props) {
             size: 'medium',
             color: 'green',
             variant: 'filled',
+            rounded: false,
             children,
         },
         _props
@@ -30,9 +34,10 @@ export default function Badge(_props) {
 
     const getBadgeClassNames = () =>
         twMerge(
-            'inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-gray-100 text-gray-800',
+            'w-fit inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-gray-100 text-gray-800',
             sizeClasses[props.size],
             colorVariantClasses[props.color][props.variant],
+            props.rounded && 'rounded-full',
             props.class
         );
 

@@ -2,8 +2,8 @@ import { mergeProps } from 'solid-js';
 import { twMerge } from 'tailwind-merge';
 
 const statusClassNames = {
-    error: 'text-rose-400 bg-rose-400/10',
-    warning: 'text-orange-400 bg-orange-400/10',
+    error: 'text-error bg-error/10',
+    warning: 'text-warning bg-warning/10',
     success: 'text-emerald-400 bg-emerald-400/10',
 };
 

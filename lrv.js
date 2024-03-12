@@ -124,7 +124,10 @@ self.addEventListener('message', async function (event) {
     switch (event.data.command) {
         case 'INIT':
             console.log('initializing...');
-            event.source.postMessage(entityMessages.get(currentId));
+
+            if (!currentId) {
+                event.source.postMessage(entityMessages.get(currentId));
+            }
 
             if (lrv === undefined) {
                 lrv = qubic.lrv();
