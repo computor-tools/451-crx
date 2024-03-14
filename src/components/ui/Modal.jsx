@@ -1,21 +1,22 @@
 import { CloseIcon } from '@/assets/icons';
 import { Show, onCleanup, onMount } from 'solid-js';
+import { Portal } from 'solid-js/web';
 import { twMerge } from 'tailwind-merge';
 
-function Modal(props) {
+function ModalOverlayWrapper(props) {
     onMount(() => {
-        if (props.isOpen) {
-            document.body.style.overflow = 'hidden';
-        }
+        document.getElementById('root').classList.add('overflow-hidden');
     });
 
     onCleanup(() => {
-        document.body.style.overflow = 'auto';
+        document.getElementById('root').classList.remove('overflow-hidden');
     });
 
     return (
-        <Show when={props.isOpen}>
-            <div class="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden">
+        <>
+            <div class="fixed inset-0 z-40 bg-black opacity-25" />
+
+            <div class="fixed inset-0 z-50 flex items-center justify-center overflow-hidden">
                 <div class="relative my-6 mx-auto w-auto">
                     {/* content */}
                     <section role="dialog" class="relative flex w-full min-w-[400px] flex-col rounded-xl border-0 bg-white shadow-lg outline-none focus:outline-none">
@@ -23,7 +24,16 @@ function Modal(props) {
                     </section>
                 </div>
             </div>
-            <div class="fixed inset-0 z-40 bg-black opacity-25" />
+        </>
+    );
+}
+
+function Modal(props) {
+    return (
+        <Show when={props.isOpen}>
+            <Portal mount={document.getElementById('root')}>
+                <ModalOverlayWrapper>{props.children}</ModalOverlayWrapper>
+            </Portal>
         </Show>
     );
 }

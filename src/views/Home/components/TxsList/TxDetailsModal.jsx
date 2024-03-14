@@ -56,7 +56,7 @@ export default function TxDetailsModal(_props) {
             </Modal.Header>
             <hr class="mx-10" />
             <Modal.Body class="px-10">
-                <ul class="grid gap-8 p-2">
+                <ul class="grid gap-6 p-2">
                     <TxDetailItem label="Source" value={props.sourceId} />
                     <TxDetailItem label="Destination" value={props.destinationId} />
                     <TxDetailItem label="Contract Index" value={props.executedContractIndex} />
