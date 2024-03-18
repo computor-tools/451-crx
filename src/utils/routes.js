@@ -1,7 +1,7 @@
 export const Routes = Object.freeze({
-	HOME: '/',
-	TRANSFER: '/transfer',
-	RECEIVE: '/receive',
-	TRADE: '/trade',
-	HISTORY: '/history',
+    HOME: '/',
+    LOGIN: '/login',
+    TRANSFER: '/transfer',
+    RECEIVE: '/receive',
+    TRADE: '/trade',
 });
