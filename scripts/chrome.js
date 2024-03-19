@@ -3,12 +3,10 @@ async function hasActiveTabs() {
     return tabs.length > 0;
 }
 
-chrome.runtime.onMessage.addListener(async (message) => {
-    if (message.popupClosed) {
-        if (await hasActiveTabs) {
-            self.serviceWorker.postMessage({
-                command: 'LOGOUT',
-            });
-        }
+chrome.tabs.onRemoved.addListener(async () => {
+    if (!(await hasActiveTabs)) {
+        self.serviceWorker.postMessage({
+            command: 'LOGOUT',
+        });
     }
 });
