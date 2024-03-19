@@ -14,12 +14,12 @@
   ],
   "host_permissions": [
     "ws://localhost/*",
-    "https://*/*",
-    "wss://*/*"
+    "wss://*/*",
+    "http://*/*",
+    "https://*/*"
   ],
   "background": {
-    "scripts":["background.js"],
-    "service_worker": "lrv.js",
+    "service_worker": "background.js",
     "type": "module",
     "persistent": true
   },
