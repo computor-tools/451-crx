@@ -1,24 +1,21 @@
-import { HashRouter, Navigate, Route } from '@solidjs/router';
-
+import { HashRouter, Route } from '@solidjs/router';
+import { AuthGuard } from './components/guards';
 import { AppLayout } from './components/ui/layouts';
-import { History, Home, Login, Receive, Trade, Transfer } from './views';
+import { Routes } from './utils/routes';
+import { Home, Login, Receive, Trade, Transfer } from './views';
 
 export default function App() {
-	return (
-		<HashRouter root={AppLayout}>
-			<Route path="/" component={Home} />
-			<Route path="/login" component={Login} />
-			<Route path="/logout" component={() => {
-				navigator.serviceWorker.ready.then(() => navigator.serviceWorker.controller.postMessage({
-					command: 'LOGOUT',
-				}));
-
-				return (<Navigate href="/" />);
-			}} />
-			<Route path="/transfer" component={Transfer} />
-			<Route path="/receive" component={Receive} />
-			<Route path="/trade" component={Trade} />
-			<Route path="/history" component={History} />
-		</HashRouter>
-	);
+    return (
+        <HashRouter>
+            <Route path={Routes.LOGIN} component={Login} />
+            <AuthGuard>
+                <Route component={AppLayout}>
+                    <Route path={Routes.HOME} component={Home} />
+                    <Route path={Routes.TRANSFER} component={Transfer} />
+                    <Route path={Routes.RECEIVE} component={Receive} />
+                    <Route path={Routes.TRADE} component={Trade} />
+                </Route>
+            </AuthGuard>
+        </HashRouter>
+    );
 }

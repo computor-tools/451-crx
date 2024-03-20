@@ -3,11 +3,9 @@ import { For, createSignal } from 'solid-js';
 
 import { CloseIcon, HamburgerIcon } from '@/assets/icons';
 import { Input } from '@/components/ui';
+import { logout } from '@/utils/service-worker';
 
 const ACCOUNT_MENU = [
-    // NOTE: Let login for test
-    { title: 'login', link: '/login' },
-    { title: 'logout', link: '/logout' },
     { title: 'export wallet', link: '#' },
     { title: 'settings', link: '#' },
 ];
@@ -49,10 +47,16 @@ export default function BurgerMenu() {
                         <Input class="w-[80%]" placeholder="search" color="tertiary" size="small" />
                     </div>
                     <ul class="mt-4">
+                        <li>
+                            <button onClick={logout} class="block py-2 hover:text-primary capitalize w-full text-left">
+                                logout
+                            </button>
+                        </li>
+
                         <For each={ACCOUNT_MENU}>
                             {(item) => (
                                 <li>
-                                    <A href={item.link} class="block py-2 hover:text-primary">
+                                    <A href={item.link} class="block py-2 hover:text-primary capitalize">
                                         {item.title}
                                     </A>
                                 </li>
@@ -64,7 +68,7 @@ export default function BurgerMenu() {
                         <For each={NETWORK_MENU}>
                             {(item) => (
                                 <li>
-                                    <a href={item.link} class="block py-2 hover:text-primary">
+                                    <a href={item.link} class="block py-2 hover:text-primary capitalize">
                                         {item.title}
                                     </a>
                                 </li>
