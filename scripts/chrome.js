@@ -4,7 +4,7 @@ async function hasActiveTabs() {
 }
 
 chrome.tabs.onRemoved.addListener(async () => {
-    if (!(await hasActiveTabs)) {
+    if (!(await hasActiveTabs())) {
         self.serviceWorker.postMessage({
             command: 'LOGOUT',
         });
