@@ -9,15 +9,17 @@
   "action": { "default_popup": "index.html" },
   "permissions": [
     "storage",
-    "declarativeNetRequestWithHostAccess"
+    "declarativeNetRequestWithHostAccess",
+    "tabs"
   ],
   "host_permissions": [
     "ws://localhost/*",
-    "https://*/*",
-    "wss://*/*"
+    "wss://*/*",
+    "http://*/*",
+    "https://*/*"
   ],
   "background": {
-    "service_worker": "lrv.js",
+    "service_worker": "background.js",
     "type": "module",
     "persistent": true
   },
