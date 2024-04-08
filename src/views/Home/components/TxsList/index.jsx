@@ -22,15 +22,15 @@ export default function TxsList() {
 
     return (
         <>
-            <section class="border rounded-xl w-full bg-white mb-16">
-                <div class="flex items-center border-b sticky top-10 bg-white rounded-t-xl">
+            <section class="border rounded-xl w-full bg-white mb-16 dark:bg-surface dark:border-zinc-600">
+                <div class="flex items-center border-b sticky top-10 bg-white rounded-t-xl dark:bg-surface dark:border-zinc-600">
                     {/* Filters */}
                     <ul class="flex">
                         <For each={filters}>
                             {(filterValue) => (
                                 <li>
                                     <button
-                                        class={`w-40 text-sm text-muted-foreground px-4 py-3 ${filter() === filterValue ? 'border-b-indigo-500 border-b-2' : ''}`}
+                                        class={`w-40 text-sm text-muted-foreground px-4 py-3 dark:text-white ${filter() === filterValue ? 'border-b-primary border-b-2' : ''}`}
                                         onClick={() => handleSetFilter(filterValue)}
                                     >
                                         {filterValue}
