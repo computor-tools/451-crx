@@ -12,7 +12,7 @@ const sizeClasses = {
 const colorVariantClasses = {
     primary: {
         filled: 'text-white bg-primary border-primary-container focus:ring-primary focus:border-primary hover:opacity-80',
-        outlined: 'text-primary border-primary focus:ring-primary focus:border-primary bg-transparent hover:bg-primary hover:opacity-70 hover:text-white',
+        outlined: 'text-primary ring-primary focus:ring-primary focus:border-primary bg-transparent hover:bg-primary hover:opacity-80 hover:text-white',
         text: 'text-primary focus:ring-primary bg-transparent border-transparent ring-0 hover:bg-primary hover:opacity-70 hover:text-white',
     },
     secondary: {
