@@ -15,3 +15,15 @@ export const logout = () => {
         })
     );
 };
+
+export const createTransaction = (sourceId, destinationId, amount, tick) => {
+    navigator.serviceWorker.ready.then(() =>
+        navigator.serviceWorker.controller.postMessage({
+            command: 'TRANSACTION',
+            sourceId,
+            destinationId,
+            amount,
+            tick,
+        })
+    );
+};
