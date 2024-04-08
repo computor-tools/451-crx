@@ -43,7 +43,7 @@ export default function FormActions(_props) {
 
 	return (
 		<>
-			{props.showDivider && <hr class="border-t border-gray-200 my-6" />}
+			{props.showDivider && <hr class="border-t border-gray-200 my-6 dark:border-zinc-800" />}
 			<div class={twMerge('flex justify-end gap-4', props.class)}>
 				<Button
 					color={props.cancelColor}
