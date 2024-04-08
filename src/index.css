@@ -63,13 +63,13 @@
         --on-surface-rgb: 255, 255, 255;
         --on-surface-variant: #a5a5a5;
 
-        --primary: #6366f1;
+        --primary: #56c6d1;
         --primary-rgb: 99, 101, 241;
         --primary-container: rgba(var(--primary-rgb), 0.1);
         --on-primary: var(--surface);
         --on-primary-container: var(--primary);
 
-        --secondary: #2563eb;
+        --secondary: #101010;
         --secondary-rgb: 37, 100, 235;
         --secondary-container: rgba(var(--secondary-rgb), 0.1);
         --on-secondary: var(--surface);
@@ -84,7 +84,7 @@
     }
     html {
         font-family: 'Noto Sans', system-ui, sans-serif;
-        background-color: #f9fafb;
+        @apply bg-[#f9fafb] dark:bg-surface;
     }
 
     html::-webkit-scrollbar {
