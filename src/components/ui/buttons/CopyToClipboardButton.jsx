@@ -24,8 +24,11 @@ export default function CopyToClipboardButton(props) {
     return (
         <div>
             <Tooltip content={copied() ? 'Copied! ✔ ' : 'Copy'} show={copied() || error()}>
-                <button class="rounded-full p-2 transition-colors hover:bg-gray-200 text-gray-700" onClick={handleCopyToClipboard}>
-                    <ClipboardDocumentIcon />
+                <button
+                    class="rounded-full p-1 m-1 transition-colors hover:bg-gray-200 text-gray-700 dark:hover:bg-gray-300/20"
+                    onClick={handleCopyToClipboard}
+                >
+                    <ClipboardDocumentIcon class="w-6 h-6 dark:text-zinc-300" />
                 </button>
             </Tooltip>
             <Show when={error()}>
