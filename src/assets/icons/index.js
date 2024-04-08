@@ -9,3 +9,6 @@ export { default as CloseIcon } from './close.svg';
 export { default as ExclamationCircleIcon } from './exclamation-circle.svg';
 export { default as HamburgerIcon } from './hamburger.svg';
 export { default as HistoryIcon } from './history.svg';
+export { default as MoonIcon } from './moon.svg';
+export { default as SunIcon } from './sun.svg';
+
