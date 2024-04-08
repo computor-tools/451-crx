@@ -8,6 +8,8 @@ import { TICK_OFFSET } from '@/signals/constants';
 import entity from '@/signals/entity';
 import networkStatus from '@/signals/network-status';
 
+import { createTransaction } from '@/utils/service-worker';
+
 export default function Transfer() {
     const navigate = useNavigate();
 
@@ -17,6 +19,30 @@ export default function Transfer() {
     const [executionTick, setExecutionTick] = createSignal(0);
     const [executionTickErrorMessage, setExecutionTickErrorMessage] = createSignal('');
     const [errorMessage, setErrorMessage] = createSignal('');
+
+    const handleFormSubmit = (event) => {
+        event.preventDefault();
+
+        navigator.serviceWorker.addEventListener('message', function redirect(event) {
+            if (event.data.command === 'TRANSACTION') {
+                if (event.data.transaction) {
+                    navigate('/', { replace: true });
+                    navigator.serviceWorker.removeEventListener('message', redirect);
+                } else {
+                    setErrorMessage(event.data.errorMessage);
+                }
+            }
+        });
+
+        console.log({
+            sourceId: entity().id,
+            destinationId: destinationId(),
+            amount: amount(),
+            tick: executionTick(),
+        });
+
+        createTransaction(entity().id, destinationId(), amount(), executionTick());
+    };
 
     createEffect(() => {
         if (networkStatus.tick()?.tick) {
@@ -36,40 +62,7 @@ export default function Transfer() {
                 </div>
             </div>
 
-            <form
-                class="grid gap-6 border-t border-gray-200 pt-10 mt-4 dark:border-zinc-800"
-                onSubmit={function (event) {
-                    event.preventDefault();
-
-                    navigator.serviceWorker.addEventListener('message', function redirect(event) {
-                        if (event.data.command === 'TRANSACTION') {
-                            if (event.data.transaction) {
-                                navigate('/', { replace: true });
-                                navigator.serviceWorker.removeEventListener('message', redirect);
-                            } else {
-                                setErrorMessage(event.data.errorMessage);
-                            }
-                        }
-                    });
-
-                    console.log({
-                        sourceId: entity().id,
-                        destinationId: destinationId(),
-                        amount: amount(),
-                        tick: executionTick(),
-                    });
-                    // eslint-disable-next-line solid/reactivity
-                    navigator.serviceWorker.ready.then(() =>
-                        navigator.serviceWorker.controller.postMessage({
-                            command: 'TRANSACTION',
-                            sourceId: entity().id,
-                            destinationId: destinationId(),
-                            amount: amount(),
-                            tick: executionTick(),
-                        })
-                    );
-                }}
-            >
+            <form class="grid gap-6 border-t border-gray-200 pt-10 mt-4 dark:border-zinc-800" onSubmit={handleFormSubmit}>
                 <div class="text-red-500 text-xs">{errorMessage()}</div>
                 <Input
                     label="Destination ID"
