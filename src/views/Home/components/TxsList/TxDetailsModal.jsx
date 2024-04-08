@@ -13,7 +13,7 @@ const TxDetailItem = (props) => {
 
     return (
         <li class="flex justify-between gap-4 items-baseline">
-            <span class="text-zinc-700 text-sm">{props.label}:</span>
+            <span class="text-zinc-700 text-sm dark:text-zinc-500">{props.label}:</span>
             <span class="text-xs font-mono text-zinc-400 break-words max-w-[28rem]">{displayValue()}</span>
         </li>
     );
@@ -40,13 +40,13 @@ export default function TxDetailsModal(_props) {
             <Modal.Header onClose={() => props.onClose(false)}>
                 <div class="grid mx-auto place-items-center pt-10 gap-4">
                     <Show when={props.isOpen}>
-                        <h3 class="flex self-center mx-auto text-4xl">{formatQubicTx(props.amount, props.txType)}</h3>
+                        <h3 class="flex self-center mx-auto text-4xl dark:text-white">{formatQubicTx(props.amount, props.txType)}</h3>
                     </Show>
                     <TxStatusBadge executed={props.executed} txTick={props.tick} />
 
                     <div>
                         <div class="text-xxs font-medium font-mono text-center space-x-1">
-                            <span class="text-zinc-700">Tick:</span>
+                            <span class="text-zinc-700 dark:text-zinc-500">Tick:</span>
                             <span class="text-zinc-400">{props.tick}</span>
                         </div>
                         {/* TODO: Add correct timestamp */}
@@ -54,7 +54,7 @@ export default function TxDetailsModal(_props) {
                     </div>
                 </div>
             </Modal.Header>
-            <hr class="mx-10" />
+            <hr class="mx-10 dark:border-zinc-400" />
             <Modal.Body class="px-10">
                 <ul class="grid gap-6 p-2">
                     <TxDetailItem label="Source" value={props.sourceId} />
