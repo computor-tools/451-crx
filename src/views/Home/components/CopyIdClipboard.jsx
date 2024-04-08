@@ -8,9 +8,9 @@ export default function CopyIdClipboard(props) {
     }));
 
     return (
-        <div class="flex text-xs items-center border rounded-lg pl-2 shadow-xs bg-white">
+        <div class="flex text-xs items-center border rounded-lg pl-2 shadow-xs bg-white dark:bg-surface dark:border-zinc-600">
             <div class="py-2 space-x-2">
-                <span>{parseId().id}</span>
+                <span class="dark:text-zinc-300">{parseId().id}</span>
                 <span class="text-emerald-500"> {parseId().checksum}</span>
             </div>
             <CopyToClipboardButton text={props.entityId} />
