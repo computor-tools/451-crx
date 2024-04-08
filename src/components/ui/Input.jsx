@@ -14,21 +14,21 @@ const sizeClasses = {
 const colorVariantClasses = {
 	primary: {
 		outlined:
-			'text-gray-900 border-primary focus:ring-primary focus:border-primary bg-transparent',
+			'text-gray-900 border-primary focus:ring-primary focus:border-primary bg-transparent dark:text-white dark:focus:border-zinc-600',
 		standard:
-			'text-gray-900 bg-gray-100 border-none focus:ring-primary border-b-primary',
+			'text-gray-900 bg-gray-100 border-none focus:ring-primary border-b-primary dark:text-white dark:border-zinc-600',
 	},
 	secondary: {
 		outlined:
-			'text-gray-800 bg-transparent focus:ring-black border-black focus:border-black',
+			'text-gray-800 bg-transparent focus:ring-black border-black focus:border-black dark:text-white dark:border-zinc-600 dark:focus:border-zinc-400',
 		standard:
-			'text-gray-800 bg-gray-100 border-none focus:ring-black border-b-black',
+			'text-gray-800 bg-gray-100 border-none focus:ring-black border-b-black dark:text-white',
 	},
 	tertiary: {
 		outlined:
-			'text-gray-400 bg-transparent focus:ring-white focus:border-white',
+			'text-gray-400 bg-transparent focus:ring-white focus:border-white dark:text-white',
 		standard:
-			'text-gray-400 bg-gray-100 border-none focus:ring-white border-b-secondary',
+			'text-gray-400 bg-gray-100 border-none focus:ring-white border-b-secondary dark:text-white',
 	},
 };
 
@@ -84,8 +84,8 @@ export default function Input(_props) {
 					for={props.id}
 					class={`block text-sm font-medium leading-6 mb-1 ${
 						props.color === 'primary'
-							? 'text-gray-400'
-							: 'text-zinc-900'
+							? 'text-gray-400 dark:text-gray-200'
+							: 'text-zinc-900 dark:text-zinc-400'
 					}`}
 				>
 					{props.label}
