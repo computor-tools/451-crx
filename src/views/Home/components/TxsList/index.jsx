@@ -22,8 +22,8 @@ export default function TxsList() {
 
     return (
         <>
-            <section class="border rounded-xl w-full bg-white mb-16 dark:bg-surface dark:border-zinc-600">
-                <div class="flex items-center border-b sticky top-10 bg-white rounded-t-xl dark:bg-surface dark:border-zinc-600">
+            <section class="border rounded-xl w-full bg-white mb-16 dark:bg-surface-container-lowest dark:border-zinc-700">
+                <div class="flex items-center border-b sticky top-10 bg-white rounded-t-xl dark:bg-surface-container-lowest dark:border-zinc-700">
                     {/* Filters */}
                     <ul class="flex">
                         <For each={filters}>

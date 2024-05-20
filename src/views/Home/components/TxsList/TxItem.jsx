@@ -24,7 +24,7 @@ export default function TxItem(_props) {
 
     return (
         <li
-            class={twMerge('space-y-3 space-x-3 px-6 py-6 border-t hover:cursor-pointer dark:border-zinc-600 hover:bg-gray-100/30 dark:hover:bg-gray-300/20', props.class)}
+            class={twMerge('space-y-3 space-x-3 px-6 py-6 border-t hover:cursor-pointer dark:border-zinc-700 hover:bg-gray-100/30 dark:hover:bg-gray-300/20', props.class)}
             onClick={() => props.onShowTxDetails(props.digest, getTxType())}
         >
             <div class="flex justify-between items-start">

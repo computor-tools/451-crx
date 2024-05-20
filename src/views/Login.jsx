@@ -65,7 +65,7 @@ export default function Login() {
                         <br />
                         Create backups of it and keep them in secure places.
                     </p>
-                    <form class="grid gap-6 border-t border-gray-200 pt-10 mt-4 dark:border-zinc-800" onSubmit={handleFormSubmit}>
+                    <form class="grid gap-6 border-t border-gray-200 pt-10 mt-4 dark:border-zinc-700" onSubmit={handleFormSubmit}>
                         <Input type="password" label="Seed" color="primary" onInput={handleOnInput} onChange={handleOnChange} errorMessage={errorMessage()} />
                         <Button type="submit" disabled={disabled()}>
                             Login

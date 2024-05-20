@@ -21,7 +21,7 @@ function ModalOverlayWrapper(props) {
                     {/* content */}
                     <section
                         role="dialog"
-                        class="relative flex w-full min-w-[400px] flex-col rounded-xl border-0 bg-white dark:bg-surface-container-lowest shadow-lg outline-none focus:outline-none"
+                        class="relative flex w-full min-w-[400px] flex-col rounded-xl border-0 bg-white dark:bg-surface-container-lowest-container-lowest shadow-lg outline-none focus:outline-none"
                     >
                         {props.children}
                     </section>
@@ -47,7 +47,7 @@ Modal.Header = function (props) {
             {props.children}
             {props.onClose && (
                 <button type="button" class="absolute top-4 right-4 h-8 w-8 text-black opacity-50" onClick={props.onClose}>
-                    <CloseIcon class="w-6 h-6 dark:text-white"/>
+                    <CloseIcon class="w-6 h-6 dark:text-white" />
                 </button>
             )}
         </div>

@@ -58,11 +58,11 @@ export default function Transfer() {
 
                 <div class="grid place-items-center gap-1">
                     <h2 class="text-xs dark:text-zinc-300">Source ID</h2>
-                    <span class="text-xxs border p-2 rounded-lg dark:text-zinc-300 dark:border-zinc-600">{entity()?.id || ''}</span>
+                    <span class="text-xxs border p-2 rounded-lg dark:text-zinc-300 dark:border-zinc-700">{entity()?.id || ''}</span>
                 </div>
             </div>
 
-            <form class="grid gap-6 border-t border-gray-200 pt-10 mt-4 dark:border-zinc-800" onSubmit={handleFormSubmit}>
+            <form class="grid gap-6 border-t border-gray-200 pt-10 mt-4 dark:border-zinc-700" onSubmit={handleFormSubmit}>
                 <div class="text-red-500 text-xs">{errorMessage()}</div>
                 <Input
                     label="Destination ID"

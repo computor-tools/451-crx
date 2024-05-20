@@ -8,7 +8,7 @@ export default function CopyIdClipboard(props) {
     }));
 
     return (
-        <div class="flex text-xs items-center border rounded-lg pl-2 shadow-xs bg-white dark:bg-surface dark:border-zinc-600">
+        <div class="flex text-xs items-center border rounded-lg pl-2 shadow-xs bg-white dark:bg-surface-container-lowest dark:border-zinc-700">
             <div class="py-2 space-x-2">
                 <span class="dark:text-zinc-300">{parseId().id}</span>
                 <span class="text-emerald-500"> {parseId().checksum}</span>

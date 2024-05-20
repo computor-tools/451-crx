@@ -29,7 +29,7 @@ export default function NavBar() {
                     {(item) => (
                         <li class="w-16">
                             <A href={item.href} class="grid place-items-center items-center gap-2">
-                                <item.icon class="border w-9 h-9 p-1.5 rounded-lg bg-white dark:bg-surface dark:border-zinc-600 dark:text-white hover:bg-gray-300/20" />
+                                <item.icon class="border w-9 h-9 p-1.5 rounded-lg bg-white dark:bg-surface-container-lowest dark:border-zinc-700 dark:text-white hover:bg-gray-300/20" />
                                 <p class="dark:text-white ">{item.title}</p>
                             </A>
                         </li>
