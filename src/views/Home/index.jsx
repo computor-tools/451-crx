@@ -7,7 +7,7 @@ import entity from '@/signals/entity';
 
 export default function Home() {
     return (
-        <Switch fallback={<div>Loading...</div>}>
+        <Switch fallback={<div class='dark:text-zinc-200'>Loading...</div>}>
             <Match when={entity()?.id === ''}>
                 <Navigate href="/login" />
             </Match>
