@@ -24,51 +24,51 @@ import { Button } from './buttons';
  * @param {string} [_props.loadingTextCancel=''] - Loading text for the cancel button.
  */
 export default function FormActions(_props) {
-	const props = mergeProps(
-		{
-			class: '',
-			size: 'medium',
-			showDivider: true,
-			onCancel: () => {},
-			onConfirm: () => {},
-			cancelLabel: 'Cancel',
-			confirmLabel: 'Transfer',
-			cancelVariant: 'outlined',
-			confirmVariant: 'filled',
-			cancelColor: 'secondary',
-			confirmColor: 'secondary',
-		},
-		_props
-	);
+    const props = mergeProps(
+        {
+            class: '',
+            size: 'medium',
+            showDivider: true,
+            onCancel: () => {},
+            onConfirm: () => {},
+            cancelLabel: 'Cancel',
+            confirmLabel: 'Transfer',
+            cancelVariant: 'outlined',
+            confirmVariant: 'filled',
+            cancelColor: 'secondary',
+            confirmColor: 'secondary',
+        },
+        _props
+    );
 
-	return (
-		<>
-			{props.showDivider && <hr class="border-t border-gray-200 my-6" />}
-			<div class={twMerge('flex justify-end gap-4', props.class)}>
-				<Button
-					color={props.cancelColor}
-					variant={props.cancelVariant}
-					size={props.size}
-					onClick={props.onCancel}
-					isLoading={props.isLoadingCancel}
-					loadingText={props.loadingTextCancel}
-					disabled={props.disableCancel}
-				>
-					{props.cancelLabel}
-				</Button>
-				<Button
-					color={props.confirmColor}
-					variant={props.confirmVariant}
-					size={props.size}
-					onClick={props.onConfirm}
-					isLoading={props.isLoadingConfirm}
-					loadingText={props.loadingTextConfirm}
-					disabled={props.disableConfirm}
-					type="submit"
-				>
-					{props.confirmLabel}
-				</Button>
-			</div>
-		</>
-	);
+    return (
+        <>
+            {props.showDivider && <hr class="border-t border-gray-200 my-6 dark:border-zinc-700" />}
+            <div class={twMerge('flex justify-end gap-4', props.class)}>
+                <Button
+                    color={props.cancelColor}
+                    variant={props.cancelVariant}
+                    size={props.size}
+                    onClick={props.onCancel}
+                    isLoading={props.isLoadingCancel}
+                    loadingText={props.loadingTextCancel}
+                    disabled={props.disableCancel}
+                >
+                    {props.cancelLabel}
+                </Button>
+                <Button
+                    color={props.confirmColor}
+                    variant={props.confirmVariant}
+                    size={props.size}
+                    onClick={props.onConfirm}
+                    isLoading={props.isLoadingConfirm}
+                    loadingText={props.loadingTextConfirm}
+                    disabled={props.disableConfirm}
+                    type="submit"
+                >
+                    {props.confirmLabel}
+                </Button>
+            </div>
+        </>
+    );
 }

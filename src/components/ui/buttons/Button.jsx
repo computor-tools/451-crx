@@ -12,12 +12,13 @@ const sizeClasses = {
 const colorVariantClasses = {
     primary: {
         filled: 'text-white bg-primary border-primary-container focus:ring-primary focus:border-primary hover:opacity-80',
-        outlined: 'text-primary border-primary focus:ring-primary focus:border-primary bg-transparent hover:bg-primary hover:opacity-70 hover:text-white',
+        outlined: 'text-primary ring-primary focus:ring-primary focus:border-primary bg-transparent hover:bg-primary hover:opacity-80 hover:text-white',
         text: 'text-primary focus:ring-primary bg-transparent border-transparent ring-0 hover:bg-primary hover:opacity-70 hover:text-white',
     },
     secondary: {
-        filled: 'text-white bg-black border-secondary-container focus:ring-secondary focus:border-secondary hover:opacity-80 focus:ring-zinc-500 focus:border-zinc-500',
-        outlined: 'text-black border-black focus:ring-black focus:border-black bg-transparent ring-black hover:bg-zinc-100',
+        filled: 'text-white bg-black ring-secondary focus:ring-secondary focus:border-secondary hover:opacity-80 focus:ring-zinc-500 focus:border-zinc-500 dark:bg-white dark:text-black',
+        outlined:
+            'text-black border-black focus:ring-black focus:border-black bg-transparent ring-black hover:bg-zinc-100 dark:ring-zinc-500 dark:focus:ring-zinc-300 dark:text-white dark:hover:bg-zinc-800',
         text: 'text-black ring-0 bg-transparent border-transparent hover:bg-zinc-100 focus:ring-zinc-500 focus:border-zinc-500',
     },
     tertiary: {
@@ -73,7 +74,7 @@ export default function Button(_props) {
 
     const getButtonClassNames = () =>
         twMerge(
-            'block w-full rounded-md border-0 ring-1 ring-inset disabled:cursor-not-allowed disabled:opacity-50 transition-opacity duration-200',
+            'block w-full rounded-md border-0 ring-1 ring-inset disabled:cursor-not-allowed disabled:opacity-50 transition duration-300',
             sizeClasses[props.size],
             colorVariantClasses[props.color][props.variant],
             props.class

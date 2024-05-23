@@ -5,6 +5,8 @@ import { CloseIcon, HamburgerIcon } from '@/assets/icons';
 import { Input } from '@/components/ui';
 import { logout } from '@/utils/service-worker';
 
+import ToggleTheme from './ToggleTheme';
+
 const ACCOUNT_MENU = [
     { title: 'export wallet', link: '#' },
     { title: 'settings', link: '#' },
@@ -30,8 +32,11 @@ export default function BurgerMenu() {
         <div>
             {/* Hamburger Icon */}
             <button class="p-1" onClick={toggleMenu}>
-                <HamburgerIcon />
+                <HamburgerIcon class="h-5 w-5 dark:text-white" />
             </button>
+
+            {/* Overlay */}
+            <div class={`fixed inset-0 bg-black opacity-50 z-0 ${isOpen() ? 'block' : 'hidden'}`} onClick={() => setIsOpen(false)} />
 
             {/* Sidebar */}
             <div
@@ -75,6 +80,9 @@ export default function BurgerMenu() {
                             )}
                         </For>
                     </ul>
+                    <div class="w-full flex justify-center mt-6">
+                        <ToggleTheme />
+                    </div>
                 </div>
             </div>
         </div>

@@ -22,15 +22,15 @@ export default function TxsList() {
 
     return (
         <>
-            <section class="border rounded-xl w-full bg-white mb-16">
-                <div class="flex items-center border-b sticky top-10 bg-white rounded-t-xl">
+            <section class="border rounded-xl w-full bg-white mb-16 dark:bg-surface-container-lowest dark:border-zinc-700">
+                <div class="flex items-center border-b sticky top-10 bg-white rounded-t-xl dark:bg-surface-container-lowest dark:border-zinc-700">
                     {/* Filters */}
                     <ul class="flex">
                         <For each={filters}>
                             {(filterValue) => (
                                 <li>
                                     <button
-                                        class={`w-40 text-sm text-muted-foreground px-4 py-3 ${filter() === filterValue ? 'border-b-indigo-500 border-b-2' : ''}`}
+                                        class={`w-40 text-sm text-muted-foreground px-4 py-3 dark:text-white ${filter() === filterValue ? 'border-b-primary border-b-2' : ''}`}
                                         onClick={() => handleSetFilter(filterValue)}
                                     >
                                         {filterValue}
@@ -41,7 +41,7 @@ export default function TxsList() {
                     </ul>
                 </div>
                 <ul>
-                    <For each={Object.values(entity()?.transactions || {})} fallback={<p class="flex justify-center p-4 text-sm">No Transactions Found</p>}>
+                    <For each={Object.values(entity()?.transactions || {})} fallback={<p class="flex justify-center p-4 text-sm dark:text-zinc-500">No Transactions Found</p>}>
                         {(transaction, index) => <TxItem class={index() === 0 && 'border-0'} data-index={index()} onShowTxDetails={handleShowTxDetails} {...transaction} />}
                     </For>
                 </ul>

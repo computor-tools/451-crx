@@ -4,7 +4,7 @@ export default function Receive() {
     return (
         <div class="flex justify-center">
             <BackButton />
-            <h1>Receive Page in construction</h1>
+            <h1 class="dark:text-white">Receive Page in construction</h1>
         </div>
     );
 }

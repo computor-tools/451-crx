@@ -58,14 +58,14 @@ export default function Login() {
         <div class="w-[var(--vw)] h-[var(--vh)]">
             <main class="h-[var(--container-height)] w-full px-8 pb-10 pt-20">
                 <div class="flex flex-col gap-10 justify-center items-center">
-                    <p class="text-center">
+                    <p class="text-center dark:text-zinc-300">
                         Enter a <em>secret seed</em> of 55 lowercase latin characters.
                         <br />
                         The seed will always be required to access your account.
                         <br />
                         Create backups of it and keep them in secure places.
                     </p>
-                    <form class="grid gap-6 border-t border-gray-200 pt-10 mt-4" onSubmit={handleFormSubmit}>
+                    <form class="grid gap-6 border-t border-gray-200 pt-10 mt-4 dark:border-zinc-700" onSubmit={handleFormSubmit}>
                         <Input type="password" label="Seed" color="primary" onInput={handleOnInput} onChange={handleOnChange} errorMessage={errorMessage()} />
                         <Button type="submit" disabled={disabled()}>
                             Login

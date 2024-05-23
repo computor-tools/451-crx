@@ -10,7 +10,7 @@ import { twMerge } from 'tailwind-merge';
 export default function BackButton(props) {
 	return (
 		<A href="/" class={twMerge('absolute left-10 top-16', props.class)}>
-			<ArrowLeftIcon class="h-6 w-6" />
+			<ArrowLeftIcon class="h-6 w-6 dark:text-white" />
 		</A>
 	);
 }
