@@ -41,7 +41,7 @@ export default function TxsList() {
                     </ul>
                 </div>
                 <ul>
-                    <For each={Object.values(entity()?.transactions || {})} fallback={<p class="flex justify-center p-4 text-sm">No Transactions Found</p>}>
+                    <For each={Object.values(entity()?.transactions || {})} fallback={<p class="flex justify-center p-4 text-sm dark:text-zinc-500">No Transactions Found</p>}>
                         {(transaction, index) => <TxItem class={index() === 0 && 'border-0'} data-index={index()} onShowTxDetails={handleShowTxDetails} {...transaction} />}
                     </For>
                 </ul>
